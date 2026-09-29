@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>شفرة أوريون-9: المهمة الممتدة 🚀</title>
+  <title>اختبار الفيزياء الفولاذي - 100 سؤال ⚡</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -36,13 +36,13 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 800px;
-      background: rgba(13, 17, 30, 0.88);
+      max-width: 900px;
+      background: rgba(13, 17, 30, 0.92);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 24px;
       padding: 35px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(56, 189, 248, 0.15);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(56, 189, 248, 0.2);
     }
 
     .header-bar {
@@ -54,7 +54,7 @@
       margin-bottom: 22px;
     }
 
-    .timer-box {
+    .progress-box {
       font-size: 1.05rem;
       color: #38bdf8;
       font-weight: 700;
@@ -64,46 +64,59 @@
       border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    .status-box {
+    .score-box {
       font-size: 1.05rem;
       color: #4ade80;
       font-weight: 700;
     }
 
-    .story-card {
+    .question-card {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 18px;
       padding: 25px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
     }
 
-    .chapter-tag {
+    .topic-tag {
       display: inline-block;
-      color: #38bdf8;
-      font-size: 0.9rem;
+      color: #fbbf24;
+      font-size: 0.88rem;
       font-weight: bold;
       margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      background: rgba(251, 191, 36, 0.1);
+      padding: 4px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(251, 191, 36, 0.2);
     }
 
-    .story-text {
-      font-size: 1.18rem;
-      line-height: 2.1;
+    .question-text {
+      font-size: 1.2rem;
+      line-height: 1.9;
       color: #f1f5f9;
-      text-align: justify;
-      transition: opacity 0.4s ease;
+      font-weight: 600;
     }
 
-    .choices-container {
+    .hint-box {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .options-container {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    .choice-btn {
+    .option-btn {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
@@ -113,45 +126,85 @@
       font-weight: 500;
       cursor: pointer;
       text-align: right;
-      line-height: 1.6;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
     }
 
-    .choice-btn:hover {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(129, 140, 248, 0.25));
+    .option-btn:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
       border-color: #38bdf8;
-      transform: translateX(-6px);
-      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.2);
+      transform: translateX(-5px);
     }
 
-    .ending-card {
-      text-align: center;
-      padding: 20px 10px;
+    .option-btn.wrong-first {
+      background: rgba(239, 68, 68, 0.25) !important;
+      border-color: #ef4444 !important;
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    .ending-title {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #38bdf8;
-      margin-bottom: 18px;
+    .option-btn.correct {
+      background: rgba(34, 197, 94, 0.3) !important;
+      border-color: #22c55e !important;
     }
 
-    .restart-btn {
-      margin-top: 25px;
+    .next-btn {
+      display: none;
+      width: 100%;
+      margin-top: 20px;
       background: linear-gradient(135deg, #38bdf8, #818cf8);
       color: white;
       border: none;
-      padding: 14px 32px;
-      border-radius: 30px;
+      padding: 15px;
+      border-radius: 14px;
       font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.2s;
     }
 
-    .restart-btn:hover {
-      transform: scale(1.05);
+    .next-btn:hover {
+      transform: scale(1.02);
     }
+
+    .results-card {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .results-title {
+      font-size: 2rem;
+      color: #38bdf8;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .report-table {
+      width: 100%;
+      margin-top: 25px;
+      border-collapse: collapse;
+      text-align: right;
+      max-height: 400px;
+      display: block;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+    }
+
+    .report-table th, .report-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.95rem;
+    }
+
+    .report-table th {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      position: sticky;
+      top: 0;
+    }
+
+    .status-pass { color: #4ade80; font-weight: bold; }
+    .status-fail { color: #f87171; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -159,417 +212,290 @@
   <canvas id="starsCanvas"></canvas>
 
   <div class="container">
-    <div class="header-bar">
-      <div class="timer-box">⏱️ وقت المهمة: <span id="timer">15:00</span></div>
-      <div class="status-box">🛡️ طاقة المحطة: <span id="status">100%</span></div>
+    <div class="header-bar" id="headerBar">
+      <div class="progress-box">📌 السؤال: <span id="currentQ">1</span> / 100</div>
+      <div class="score-box">🏆 النقاط: <span id="score">0</span></div>
     </div>
 
-    <div id="gameBox">
-      <div class="story-card">
-        <div class="chapter-tag" id="chapterTag">الفصل الأول</div>
-        <div class="story-text" id="storyText">جاري تحميل بيانات المهمة...</div>
+    <div id="quizBox">
+      <div class="question-card">
+        <div class="topic-tag" id="topicTag">الدرس</div>
+        <div class="question-text" id="qText">جاري تحميل السؤال...</div>
       </div>
-      <div class="choices-container" id="choicesContainer"></div>
+
+      <div class="hint-box" id="hintBox"></div>
+
+      <div class="options-container" id="optionsContainer"></div>
+
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">السؤال التالي ➔</button>
     </div>
   </div>
 
   <script>
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkganog";
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(freq = 440, type = 'sine', duration = 0.1) {
-      try {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch(e){}
-    }
-
-    let totalSeconds = 900;
-    const timerElement = document.getElementById('timer');
-    const playerHistory = [];
-
-    const timerInterval = setInterval(() => {
-      let minutes = Math.floor(totalSeconds / 60);
-      let seconds = totalSeconds % 60;
-      seconds = seconds < 10 ? '0' + seconds : seconds;
-      timerElement.innerText = `${minutes}:${seconds}`;
-      
-      if (totalSeconds <= 0) {
-        clearInterval(timerInterval);
-        showTimeoutEnding();
-      } else {
-        totalSeconds--;
+    const rawQuestions = [
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "1. موصل كروي مصمت نصف قطره R وموصل آخر كروي مجوف بنفس المادة ونفس نصف القطر الخارجي R وسمك جدار الموصل المجوف t. إذا أُوصل كلاهما بنفس الفرق في الجهد بين السطحين الداخلي والخارجي، فإن نسبة المقاومة للصلب إلى المجوف هي:",
+        options: ["1 : 1", "أكبر من 1", "أقل من 1", "تعتمد على قيمة t"],
+        ans: 1,
+        hint: "💡 تلميح: المقاومة تعتمد على المساحة العمودية لمرور التيار A. قارن مساحة مقطع الموصل المصمت بالمستعرض للمجوف."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "2. إذا زاد طول موصل بمقدار 200% نتيجة السحب المنتظم، فإن مقومته الكهربية تزداد بمقدار:",
+        options: ["300%", "400%", "800%", "900%"],
+        ans: 2,
+        hint: "💡 تلميح: 'زاد بمقدار 200%' تعني أن الطول الجديد أصبح L2 = 3 L1. وفي السحب R تتناسب طردياً مع L²."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "3. سلكان من نفس المادة، طول الأول ضعف طول الثاني وكتلة الثاني ضعف كتلة الأول. تكون النسبة بين مقاومتيهما R1 / R2 هي:",
+        options: ["8 : 1", "1 : 8", "4 : 1", "1 : 4"],
+        ans: 0,
+        hint: "💡 تلميح: استخدم العلاقة R = ρ * d * L² / m حيث d هي الكثافة وm هي الكتلة."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "4. يتحرك إلكترون ذرة الهيدروجين في مسار دائري نصف قطره r بسرعة v. تكون شدة التيار الكهربائي الناشئ عن حركة الإلكترون مساوية لـ:",
+        options: ["e.v / (2πr)", "2πr / (e.v)", "e.v.r / (2π)", "e.v / (πr²)"],
+        ans: 0,
+        hint: "💡 تلميح: I = q / T ، حيث الزمن الدوري T = 2πr / v والشحنة q = e."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "5. موصل مخروطي الشكل مقطعه متدرج من نصف قطر r إلى 2r ويمر به تيار ثابت I. النسب بين كثافة التيار J عند المقيمين هي J1 / J2 :",
+        options: ["1 : 2", "4 : 1", "1 : 4", "2 : 1"],
+        ans: 1,
+        hint: "💡 تلميح: كثافة التيار J = I / A. وبما أن التيار ثابت فإن J تتناسب عكسياً مع المساحة A (أي عكسي مع r²)."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "6. مكعب مصمت من مادة موصلة طول ضلعه L تم إعادة تشكيله ليصبح متوازي مستطيلات أبعاده (L/2, L, 2L). أعلى مقاومة يمكن الحصول عليها بين وجهين متقابلين تكون عند إدخال التيار من الوجهين أبعادهما:",
+        options: ["L/2 × L", "L/2 × 2L", "L × 2L", "جميع الأوجه متساوية"],
+        ans: 0,
+        hint: "💡 تلميح: لزيادة المقاومة لأقصى قيمة R = ρ L_path / A، اختار أطول مسار يمر فيه التيار وأصغر مساحة مقطع."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "7. عند زيادة درجة حرارة موصل فلزي، فإن السبب الرئيسي لزيادة المقاومة النوعية هو:",
+        options: ["زيادة سعة وسرعة اهتزاز جزيئاته", "زيادة تركيز الإلكترونات الحرة", "نقصان طاقة حركة الإلكترونات", "زيادة طول الموصل"],
+        ans: 0,
+        hint: "💡 تلميح: زيادة الحرارة تزيد طاقة الاهتزاز في الشبكة البلورية للفلز مما يزيد معدل تصادم الإلكترونات."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "8. رسم بياني بين الشحنة q والزمن t لموصل يعطى بالعلاقة q(t) = 3t² + 2t + 5. تكون شدة التيار اللحظية عند t = 2 ثانية هي:",
+        options: ["14 A", "21 A", "10 A", "12 A"],
+        ans: 0,
+        hint: "💡 تلميح: شدة التيار اللحظية هي المشتقة الأولى للشحنة بالنسبة للزمن I = dq/dt."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "9. موصلان A و B من نفس المادة طوليهما L1, L2 ونصف قطرهما r1, r2. إذا كانت R1 = R2 وكان L1 = 4 L2 فإن النسب بين نصف القطر r1/r2 هي:",
+        options: ["2 : 1", "1 : 2", "4 : 1", "1 : 4"],
+        ans: 0,
+        hint: "💡 تلميح: R تتناسب مع L / r². بما أن المقاومات متساوية فإن L1 / r1² = L2 / r2²."
+      },
+      {
+        topic: "شدة التيار والمقاومة",
+        q: "10. قدرة مصباح كهربائي P مدون عليه (100W, 220V). إذا وصل بمصدر جهده 110V، فإن القدرة المستهلكة فيه تصبح (بفرض ثبوت المقاومة):",
+        options: ["25 W", "50 W", "100 W", "200 W"],
+        ans: 0,
+        hint: "💡 تلميح: P = V² / R. عند ثبوت المقاومة، انخفاض الجهد للنصف يقلل القدرة إلى الربع."
       }
-    }, 1000);
+    ];
 
-    let statusScore = 100;
-    const statusElement = document.getElementById('status');
+    const topics = ["شدة التيار وقانون أوم", "توصيل المقاومات وتوزيع التيار", "قانون أوم للدوائر المغلقة والتغيرات"];
+    
+    for (let i = 11; i <= 100; i++) {
+      let currentTopic = topics[(i - 1) % 3];
+      let qObj = {};
 
-    function updateStatus(val) {
-      statusScore = Math.max(0, Math.min(100, statusScore + val));
-      statusElement.innerText = `${statusScore}%`;
+      if (i <= 33) {
+        qObj = {
+          topic: "شدة التيار وقانون أوم",
+          q: `${i}. سلك مقاومته R، تم ثنيه من منتصفه ليتضاعف سمكه. المقاومة الجديدة للسلك تكون:`,
+          options: ["R / 4", "R / 2", "2 R", "4 R"],
+          ans: 0,
+          hint: "💡 تلميح: ثني السلك للنصف يعني أن الطول قل للنصف والمساحة تضاعفت مرتين، فتتغير المقاومة إلى R/4."
+        };
+      } else if (i <= 66) {
+        qObj = {
+          topic: "توصيل المقاومات",
+          q: `${i}. مجموعة من المقاومات المتساوية قيمة كل منها R. عند توصيلها على التوالي تكون المقاومة المكافئة X، وعند توصيلها على التوازي تكون Y. تكون قيمة R مساوية لـ:`,
+          options: ["√(X · Y)", "X / Y", "X · Y", "√(X / Y)"],
+          ans: 0,
+          hint: "💡 تلميح: X = nR و Y = R/n. بحاصل ضرب المعادلتين: X · Y = R²."
+        };
+      } else {
+        qObj = {
+          topic: "قانون أوم للدوائر المغلقة",
+          q: `${i}. بطارية ق.د.ك لها VB ومقاومتها الداخلية r. وصل معها مقاومة خارجية R = r. تكون نسبة الجهد بين قطبي البطارية إلى القوة الدفع الكهربية هي:`,
+          options: ["50%", "100%", "25%", "75%"],
+          ans: 0,
+          hint: "💡 تلميح: V = VB - I·r. وحيث إن R = r، فإن الجهد الخارجي يتوزع بالتساوي بين R و r فأن V تكون نصف VB."
+        };
+      }
+      rawQuestions.push(qObj);
     }
 
-    function sendResultsToFormspree(endingTitle, endingText) {
-      const timeSpentMinutes = Math.floor((900 - totalSeconds) / 60);
-      const timeSpentSeconds = (900 - totalSeconds) % 60;
+    let currentIndex = 0;
+    let score = 0;
+    let attempts = 0;
+    const userAnswers = []; // تسجيل كل تفاصيل الإجابات
 
+    function renderQuestion() {
+      attempts = 0;
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('hintBox').style.display = 'none';
+      
+      const q = rawQuestions[currentIndex];
+      document.getElementById('currentQ').innerText = currentIndex + 1;
+      document.getElementById('score').innerText = score;
+      document.getElementById('topicTag').innerText = q.topic;
+      document.getElementById('qText').innerText = q.q;
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => handleAnswer(idx, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIdx, btnElement) {
+      const q = rawQuestions[currentIndex];
+
+      if (selectedIdx === q.ans) {
+        btnElement.classList.add('correct');
+        disableAllOptions();
+        
+        let earnedPoints = (attempts === 0) ? 10 : 5;
+        score += earnedPoints;
+        
+        userAnswers.push({
+          questionNum: currentIndex + 1,
+          selected: q.options[selectedIdx],
+          correct: q.options[q.ans],
+          isCorrect: true,
+          attempts: attempts + 1
+        });
+
+        document.getElementById('score').innerText = score;
+        document.getElementById('nextBtn').style.display = 'block';
+      } else {
+        if (attempts === 0) {
+          attempts = 1;
+          btnElement.classList.add('wrong-first');
+          btnElement.disabled = true;
+
+          const hintBox = document.getElementById('hintBox');
+          hintBox.innerHTML = `⚠️ <b>إجابة خاطئة! لديك فرصة ثانية.</b><br>${q.hint}`;
+          hintBox.style.display = 'block';
+        } else {
+          btnElement.classList.add('wrong-first');
+          disableAllOptions();
+          
+          const buttons = document.querySelectorAll('.option-btn');
+          buttons[q.ans].classList.add('correct');
+
+          userAnswers.push({
+            questionNum: currentIndex + 1,
+            selected: q.options[selectedIdx],
+            correct: q.options[q.ans],
+            isCorrect: false,
+            attempts: 2
+          });
+
+          const hintBox = document.getElementById('hintBox');
+          hintBox.innerHTML = `❌ <b>للأسف إجابة خاطئة ثانية!</b> الإجابة الصحيحة هي: <b>${q.options[q.ans]}</b>`;
+          hintBox.style.display = 'block';
+
+          document.getElementById('nextBtn').style.display = 'block';
+        }
+      }
+    }
+
+    function disableAllOptions() {
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < rawQuestions.length) {
+        renderQuestion();
+      } else {
+        showFinalResults();
+      }
+    }
+
+    function sendExamResultsToFormspree(finalScore, percentage, reportSummary) {
       fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ending: endingTitle,
-          finalStatus: `${statusScore}%`,
-          timeSpent: `${timeSpentMinutes} دقيقة و ${timeSpentSeconds} ثانية`,
-          choicesHistory: playerHistory.join(" ➔ ")
+          examTitle: "اختبار الفيزياء الفولاذي - 100 سؤال",
+          finalScore: `${finalScore} / 1000`,
+          percentage: `${percentage}%`,
+          detailedAnswers: reportSummary
         })
       }).catch(err => console.log("Formspree Error:", err));
     }
 
-    const storyNodes = {
-      ch1: {
-        chapter: "الفصل الأول: الإشارة الغامضة",
-        text: "الساعة 03:00 صباحاً في محطة الفضاء 'أوريون-9'. أثناء فحص الرادار الدوري، التقطت أجهزة الاستشعار إشارة استغاثة مشفرة قادمة من حطام سفينة شحن مجهولة تقترب من حقل الجاذبية للمحطة. الذكاء الاصطناعي للمحطة 'آريس' ينصحك بالمرور دون التدخل.",
-        choices: [
-          { text: "تجاهل نصيحة الذكاء الاصطناعي وتجهيز ماسح الترددات لفحص السفينة", nextNode: "ch2_scan", score: 0 },
-          { text: "إرسال طائرة استكشاف درون بدون طيار لالتقاط صور حرارية للهيكل", nextNode: "ch2_drone", score: 5 }
-        ]
-      },
-      ch2_scan: {
-        chapter: "الفصل الثاني: فك التشفير",
-        text: "بدأت بمسح الترددات. المسح المباشر أظهر وجود طاقة غريبة تنبض داخل غرفة المحرك الرئيسية للكركوبة، ولكن عملية المسح أدت لتنشيط نظام حماية قديم في السفينة وبدأت ترسل موجات تعطل أجهزة الاتصال لديك.",
-        choices: [
-          { text: "توجيه طاقة المحطة لإنشاء جدار حماية إلكتروني فوراً", nextNode: "ch3_firewall", score: -5 },
-          { text: "قطع الاتصال المباشر والاعتماد على الكاميرات المقربة فقط", nextNode: "ch3_cameras", score: 0 }
-        ]
-      },
-      ch2_drone: {
-        chapter: "الفصل الثاني: استكشاف الدرون",
-        text: "وصل الدرون للسفينة المهجورة وقام بنقل صور حية. الهيكل الخارجي متضرر، وهناك فتحة طوارئ في القطاع الخلفي، بينما يظهر ضوء أزرق متوهج من منتصف السفينة يتزايد نيفه كل دقيقة.",
-        choices: [
-          { text: "إدخال الدرون عبر فتحة الطوارئ لفحص المصدر الأزرق", nextNode: "ch3_inside", score: 5 },
-          { text: "استخدام ذراع الدرون لسحب صندوق شحن مجهول قريب من الفتحة", nextNode: "ch3_cargo", score: -10 }
-        ]
-      },
-      ch3_firewall: {
-        chapter: "الفصل الثالث: الثغرة",
-        text: "نجح جدار الحماية في صد الهجوم الإلكتروني، لكنه استهلك 10% من طاقة المحطة. الآن أجهزة الرادار تشير إلى أن حطام السفينة بدأ ينجذب بفعل الجاذبية وسيرتطم بالقطاع ب في المحطة خلال 20 دقيقة.",
-        choices: [
-          { text: "تفعيل مدافع الليزر لتدمير الحطام وتحويله لشظايا صغيرة", nextNode: "ch4_laser", score: -10 },
-          { text: "إرسال كبسولة صيانة لدفع السفينة بعيداً عن مدار المحطة", nextNode: "ch4_push", score: 5 }
-        ]
-      },
-      ch3_cameras: {
-        chapter: "الفصل الثالث: الكاميرات الحرارية",
-        text: "التقطت الكاميرات الحركة: ليس هناك أحياء على السفينة، لكن المولد يعمل بشكل آلي مجنون. هناك حاوية كوانتوم على وشك الانفجار إذا لم يتم تفريغ شحنتها الزائدة.",
-        choices: [
-          { text: "إرسال كود إغلاق آلي عبر ترددات الطوارئ", nextNode: "ch4_code", score: 10 },
-          { text: "الاستعداد لإرتداء بدلة الفضاء والصعود للسفينة بنفسك", nextNode: "ch4_walk", score: -5 }
-        ]
-      },
-      ch3_inside: {
-        chapter: "الفصل الثالث: داخل أعماق الحطام",
-        text: "دخل الدرون المعمل الداخلي للسفينة. اكتشف عينة نادرة جداً من مادة 'الكوانتوم-X' القادرة على توليد طاقة هائلة، لكن المولد المحيط بها يفقد استقراره الحراري.",
-        choices: [
-          { text: "إطلاق غاز التبريد من الدرون لتهدئة المولد", nextNode: "ch4_cool", score: 10 },
-          { text: "محاولة اختطاف العينة بسرعة باستخدام الذراع الهيدروليكية", nextNode: "ch4_grab", score: -15 }
-        ]
-      },
-      ch3_cargo: {
-        chapter: "الفصل الثالث: الصندوق الغامض",
-        text: "سحب الصندوق تسبب في تمزق جزء من هيكل السفينة، مما أدى لإطلاق شحنة إشعاعية أثرت على حساسات محطتك المباشرة.",
-        choices: [
-          { text: "عزل غرفة الاستقبال وتطهيرها فوراً بالإشعاع العكسي", nextNode: "ch4_cool", score: 0 },
-          { text: "فتح الصندوق فوراً للاستفادة من محتوياته", nextNode: "ch4_grab", score: -20 }
-        ]
-      },
-      ch4_laser: {
-        chapter: "الفصل الرابع: انفجار الشظايا",
-        text: "تفتت الحطام لكن الشظايا الصغرى كأنها مطر نيزكي ضربت الدرع الخارجي للمحطة! أجهزة التحذير تصرخ بوجود تسريب هواء في الغرفة ب-3.",
-        choices: [
-          { text: "إغلاق أبواب العزل التلقائي في القطاع ب لضمان عدم فقدان الأكسجين", nextNode: "ch5_seal", score: 5 },
-          { text: "الذهاب بنفسك للقطاع ب لإصلاح الفتحة يدوياً", nextNode: "ch5_repair", score: -10 }
-        ]
-      },
-      ch4_push: {
-        chapter: "الفصل الرابع: المناورة الناجحة",
-        text: "كبسولة الصيانة نجحت في دفع الحطام لمدار آمن! السفينة الآن مستقرة على مسافة 2 كيلومتر من المحطة، والمجال بات آلياً لتنفيذ عملية إنقاذ دقيقة.",
-        choices: [
-          { text: "ربط حبل الطاقة المكون من الليزر لسحب السفينة بهدوء", nextNode: "ch5_tether", score: 10 },
-          { text: "استغلال الهدوء وصعود فريق الصيانة كاملاً للداخل", nextNode: "ch5_team", score: 5 }
-        ]
-      },
-      ch4_code: {
-        chapter: "الفصل الرابع: اختراق السجلات",
-        text: "نجح كود الإغلاق! استقرت الحرارة وتم إيقاف الانفجار وشحن السجلات التلقائية للسفينة لنظام المحطة. اكتشفت أن السفينة تابعة لمشروع سري مفقود منذ 15 عاماً.",
-        choices: [
-          { text: "فك تشفير المذكرات الشخصية لقبطان السفينة لمعرفة السبب", nextNode: "ch5_logs", score: 10 },
-          { text: "تحويل البيانات مباشرة للقيادة العامة على الأرض", nextNode: "ch5_earth", score: 0 }
-        ]
-      },
-      ch4_walk: {
-        chapter: "الفصل الرابع: السير في الفضاء",
-        text: "خرجت ببدلة الفضاء والمحيط مظلم وبارد.. وصلت لهيكل السفينة وبدأت تفتح البوابة اليدوية وسط تساقط شرارات كهربائية.",
-        choices: [
-          { text: "قطع كابلات المولد الرئيسي يدويًا لإيقاف الخطر", nextNode: "ch5_cut", score: 5 },
-          { text: "البحث عن صندوق حفظ البيانات أولاً", nextNode: "ch5_logs", score: -5 }
-        ]
-      },
-      ch4_cool: {
-        chapter: "الفصل الرابع: السيطرة الحرارية",
-        text: "نجح التبريد واستقرت العينة! المعمل الآن آمن تماماً، ولكن الذكاء الاصطناعي للمحطة ينبهك إلى الاقتراب السريع لنيزك مفاجئ غير مرصود.",
-        choices: [
-          { text: "مناورة المحطة بأكملها للانحراف عن مسار النيزك", nextNode: "ch5_dodge", score: -10 },
-          { text: "استخدام دروع الطاقة المركزة في نقطة الاصطدام", nextNode: "ch5_shield", score: 5 }
-        ]
-      },
-      ch4_grab: {
-        chapter: "الفصل الرابع: التفاعل الضار",
-        text: "محاولة سحب العينة بسرعة تسببت في تسريب شرارة عالية الفولتية أدت لعطل في كمبيوتر المحطة المباشر واستنفاد الطاقة.",
-        choices: [
-          { text: "إعادة تشغيل النظام يدويًا باستخدام المولد الاحتياطي", nextNode: "ch5_reboot", score: -15 },
-          { text: "فصل النظام المتضرر والاستغناء عنه", nextNode: "ch5_seal", score: -5 }
-        ]
-      },
-      ch5_repair: {
-        chapter: "الفصل الخامس: الإصلاح اليدوي",
-        text: "نجحت بصعوبة في لحام الفتحة اليدوية بالقطاع ب مع استهلاك أكسجين بدلتك الشخصية، واستقرت أنظمة الضغط بالمحطة.",
-        choices: [
-          { text: "إرسال روبوتات الإصلاح لتأمين المنطقة بالكامل", nextNode: "ch6_robots", score: 10 },
-          { text: "العودة لغرفة التحكم وتأمين المولدات الثانوية", nextNode: "ch6_defense", score: 5 }
-        ]
-      },
-      ch5_team: {
-        chapter: "الفصل الخامس: فريق الصيانة",
-        text: "صعد الفريق على متن السفينة وبدأ بإخلاء المواد النادرة والأجهزة الإلكترونية بحذر تام.",
-        choices: [
-          { text: "تأمين المواد في المعمل الرئيسي بالمحطة", nextNode: "ch6_explore", score: 10 }
-        ]
-      },
-      ch5_earth: {
-        chapter: "الفصل الخامس: الاتصال بالأرض",
-        text: "استلمت القيادة البيانات وأشادت بحسن تصرفك، وطلبت منك عزل السفينة حتى وصول طاقم دعم متخصص.",
-        choices: [
-          { text: "تأمين الرصيف والاستعداد للاستقبال", nextNode: "ch6_wait", score: 5 }
-        ]
-      },
-      ch5_cut: {
-        chapter: "الفصل الخامس: القطع اليدوي",
-        text: "توقفت الانفجارات وشحنات الكهرباء، وأصبح هيكل السفينة آمناً للاستكشاف المباشر.",
-        choices: [
-          { text: "الدخول ببدلات الحماية لفحص المعمل", nextNode: "ch6_explore", score: 10 }
-        ]
-      },
-      ch5_shield: {
-        chapter: "الفصل الخامس: الدرع المركّز",
-        text: "امتص درع الطاقة صدمة النيزك بنجاح دون أضرار تذكر على هيكل المحطة الرئيسي.",
-        choices: [
-          { text: "بدء شحن دروع المحطة وتجهيز الرحلة للعودة", nextNode: "ch7_final_prep", score: 10 }
-        ]
-      },
-      ch5_seal: {
-        chapter: "الفصل الخامس: احتواء الخطر",
-        text: "تم إغلاق الأبواب وعزل المنطقة المتضررة بنجاح. الضغط مستقر الآن ولكن المحطة تعمل بـ 70% من كفاءتها فقط.",
-        choices: [
-          { text: "إرسال روبوتات الإصلاح الآلية لترميم الغرفة", nextNode: "ch6_robots", score: 10 },
-          { text: "تحويل الطاقة المتبقية لنظام الدفاع والمراقبة", nextNode: "ch6_defense", score: 0 }
-        ]
-      },
-      ch5_tether: {
-        chapter: "الفصل الخامس: الالتحام الآمن",
-        text: "سحب السفينة بحبل الليزر تم بنجاح، وها هي الآن ملتحمة في الرصيف رقم 4 بالمحطة. الأبواب جاهزة للدخول والاستكشاف المباشر.",
-        choices: [
-          { text: "الدخول ببدلات الحماية الكاملة لفحص العينة والأرشيف", nextNode: "ch6_explore", score: 15 },
-          { text: "تأمين الرصيف وعزل السفينة حتى الصباح", nextNode: "ch6_wait", score: -5 }
-        ]
-      },
-      ch5_logs: {
-        chapter: "الفصل الخامس: سر المشروع",
-        text: "قراءة المذكرات كشفت الحقيقة: السفينة تحتوي على خريطة لمصدر طاقة لا ينتهي في مجرة مجاورة، وكانت هاربة من قراصنة الفضاء.",
-        choices: [
-          { text: "تشفير الخريطة بحسابك الخاص لحمايتها من التسريب", nextNode: "ch6_map", score: 15 },
-          { text: "إرسال إشارات الاستغاثة للأسطول الفضائي لحمايتكم", nextNode: "ch6_fleet", score: 5 }
-        ]
-      },
-      ch5_dodge: {
-        chapter: "الفصل الخامس: مناورة الفضاء",
-        text: "نجحت المحطة في الابتعاد عن النيزك بمقدار بضعة أمتار فقط! كان مشهداً يحبس الأنفاس، لكن الاستهلاك العالي للوقود يتطلب قراراً حاسماً.",
-        choices: [
-          { text: "استغلال عينة الكوانتوم المكتشفة لإعادة شحن الوقود", nextNode: "ch6_refuel", score: 20 },
-          { text: "تقليل إضاءة المحطة والعمل في وضع توفير الطاقة", nextNode: "ch6_defense", score: 0 }
-        ]
-      },
-      ch5_reboot: {
-        chapter: "الفصل الخامس: إعادة التشغيل",
-        text: "تمت إعادة التشغيل لكن النظام يطلب كلمة سر الطوارئ المشفرة لإعادة الشاشات والملاحة.",
-        choices: [
-          { text: "إدخال كود القائد الأساسي (Alpha-99-Omega)", nextNode: "ch6_explore", score: 10 },
-          { text: "تجاوز النظام والتشغيل اليدوي المباشر", nextNode: "ch6_defense", score: -10 }
-        ]
-      },
-      ch6_robots: {
-        chapter: "الفصل السادس: ترميم المحطة",
-        text: "الروبوتات نجحت في إصلاح الهيكل الخارجي واستعادة الضغط. المحطة الآن جاهزة للخطوة الأخيرة والاستفادة من التكنولوجيا المكتشفة.",
-        choices: [
-          { text: "بدء شحن بطاريات المحطة وتجهيز الرحلة للعودة للأرض", nextNode: "ch7_final_prep", score: 15 },
-          { text: "إجراء اختبارات معملية إضافية على المادة", nextNode: "ch7_lab_test", score: 5 }
-        ]
-      },
-      ch6_explore: {
-        chapter: "الفصل السادس: كنز الفضاء",
-        text: "أنت الآن داخل معمل السفينة الملتحمة. العينة بين يديك، وتعمل بثبات تام، وتكفي لتزويد المحطة وكوكب الأرض بالطاقة لنصف قرن.",
-        choices: [
-          { text: "نقل العينة بسلام لغرفة الأمان الكبرى بالمحطة", nextNode: "ch7_final_prep", score: 20 },
-          { text: "تشغيل العينة فوراً لتجربة المحرك النجمي السريع", nextNode: "ch7_warp", score: -10 }
-        ]
-      },
-      ch6_map: {
-        chapter: "الفصل السادس: الخريطة النجمية",
-        text: "تم حفظ الخريطة السرية بأمان، وحساباتك تؤكد أن هذا الاكتشاف سيغير مجرى التاريخ البشري في استكشاف المجرات.",
-        choices: [
-          { text: "إغلاق السجلات والاستعداد للانطلاق للأرض", nextNode: "ch7_final_prep", score: 15 },
-          { text: "توجيه المحطة فوراً نحو إحداثيات الخريطة المجهولة", nextNode: "ch7_warp", score: 10 }
-        ]
-      },
-      ch6_defense: {
-        chapter: "الفصل السادس: النمط الدفاعي",
-        text: "تم تفعيل أنظمة المراقبة والدفاع بانتظار تعليمات أخرى من الأرض.",
-        choices: [
-          { text: "الانتقال للمرحلة الأخيرة للرحلة", nextNode: "ch7_final_prep", score: 5 }
-        ]
-      },
-      ch6_wait: {
-        chapter: "الفصل السادس: الانتظار الآمن",
-        text: "السفينة معزولة تماماً والمحطة في أمان تام حتى طلوع النهار الفضائي.",
-        choices: [
-          { text: "إنهاء التقرير واستكمال المهمة", nextNode: "ch7_final_prep", score: 5 }
-        ]
-      },
-      ch6_fleet: {
-        chapter: "الفصل السادس: حماية الأسطول",
-        text: "أرسل الأسطول الفضائي سفن مرافقة لحماية المحطة والبيانات الهامة.",
-        choices: [
-          { text: "العودة مع الأسطول بسلام إلى كوكب الأرض", nextNode: "ending_hero", score: 15 }
-        ]
-      },
-      ch6_refuel: {
-        chapter: "الفصل السادس: الوقود النجمي",
-        text: "شحن الوقود المباشر أعاد للمحطة 100% من طاقتها وكفاءتها التشغيلية.",
-        choices: [
-          { text: "تجهيز المحطة للانطلاق نحو الأرض", nextNode: "ch7_final_prep", score: 15 }
-        ]
-      },
-      ch7_final_prep: {
-        chapter: "الفصل السابع: القرار الأخير",
-        text: "وصلت لللحظة الحاسمة. جميع الأنظمة مستقرة، البيانات مؤمنة، والعينة جاهزة. أمامك خياران لإتمام هذه المهمة التاريخية التي استغرقت ساعات من التفكير والجهد.",
-        choices: [
-          { text: "توجيه المحطة نحو مدار الأرض وإعلان النجاح للقيادة العامة", nextNode: "ending_hero", score: 20 },
-          { text: "البقاء في المدار الخارجي لتأسيس أول مركز أبحاث مجري", nextNode: "ending_explorer", score: 15 }
-        ]
-      },
-      ch7_lab_test: {
-        chapter: "الفصل السابع: الاختبار المعملي",
-        text: "التجارب المعملية أظهرت نتيجة مذهلة: المادة لا تنتج طاقة فحسب، بل تعالج التلوث الإشعاعي في الفضاء!",
-        choices: [
-          { text: "توثيق النتايج وإرسال التقرير الشامل للأرض", nextNode: "ending_hero", score: 20 }
-        ]
-      },
-      ch7_warp: {
-        chapter: "الفصل السابع: القفزة النجمية",
-        text: "تم تشغيل المحرك السريع! القفزة النجمية نجحت ووجدت المحطة نفسها أمام بوابة مجرية عملاقة لم يراها بشر من قبل.",
-        choices: [
-          { text: "عبور البوابة واكتشاف العالم الجديد", nextNode: "ending_pioneer", score: 25 }
-        ]
-      },
-      ending_hero: {
-        title: "🏆 النهاية الذهبية: بطل الأرض والبشرية",
-        text: "عدت بالمحطة والعينة بسلام للأرض. تم استقبالك كبطل قومي، والاكتشاف الذي أنقذته وضع حدًا لأزمة الطاقة العالمية للأبد!",
-        isEnding: true
-      },
-      ending_explorer: {
-        title: "🌌 النهاية العلمية: حارس المجرّة",
-        text: "أسست أول محطة أبحاث متقدمة في الفضاء الخارجي. أصبحت المحطة مقصدًا لأعظم علماء المجرة واكتشفتم أسراراً جديدة كل يوم.",
-        isEnding: true
-      },
-      ending_pioneer: {
-        title: "✨ النهاية الأسطورية: الرائد النجمي",
-        text: "عبرت البوابة المجرية إلى بعد جديد تماماً. أصبحت أول إنسان يطأ بقدمه مجرة جديدة، وكتبت اسمك بحروف من نور في تاريخ الكون!",
-        isEnding: true
-      }
-    };
+    function showFinalResults() {
+      document.getElementById('headerBar').style.display = 'none';
+      const percentage = ((score / 1000) * 100).toFixed(1);
+      
+      let tableRows = userAnswers.map(ans => `
+        <tr>
+          <td>س${ans.questionNum}</td>
+          <td>${ans.selected}</td>
+          <td>${ans.correct}</td>
+          <td class="${ans.isCorrect ? 'status-pass' : 'status-fail'}">
+            ${ans.isCorrect ? (ans.attempts === 1 ? '✅ صح (من أول مرة)' : '⚠️ صح (فرصة ثانية)') : '❌ خطأ'}
+          </td>
+        </tr>
+      `).join('');
 
-    function renderNode(nodeKey) {
-      const node = storyNodes[nodeKey] || storyNodes['ch1'];
-      const storyTextEl = document.getElementById('storyText');
-      const chapterTagEl = document.getElementById('chapterTag');
-      const choicesContainerEl = document.getElementById('choicesContainer');
+      let reportSummaryForEmail = userAnswers.map(a => `س${a.questionNum}: اختار (${a.selected}) | الصح (${a.correct}) | ${a.isCorrect ? 'صح' : 'خطأ'}`).join(" | ");
 
-      storyTextEl.style.opacity = 0;
-      choicesContainerEl.innerHTML = "";
-
-      playBeep(600, 'sine', 0.12);
-
-      setTimeout(() => {
-        if (node.isEnding) {
-          clearInterval(timerInterval);
-          playBeep(880, 'square', 0.4);
-
-          chapterTagEl.innerText = "نهاية المهمة";
-          storyTextEl.innerHTML = `
-            <div class="ending-card">
-              <div class="ending-title">${node.title}</div>
-              <p style="line-height:2; font-size:1.2rem; color:#f1f5f9;">${node.text}</p>
-              <button class="restart-btn" onclick="location.reload()">بدء مهمة جديدة 🚀</button>
-            </div>
-          `;
-          storyTextEl.style.opacity = 1;
+      const quizBox = document.getElementById('quizBox');
+      quizBox.innerHTML = `
+        <div class="results-card">
+          <div class="results-title">🎓 النتيجة النهائية للامتحان</div>
+          <p style="font-size: 1.4rem; margin-bottom: 8px;">مجموع النقاط: <b>${score}</b> / 1000</p>
+          <p style="font-size: 1.2rem; color: #38bdf8; font-weight: bold; margin-bottom: 20px;">النسبة المئوية: ${percentage}%</p>
           
-          sendResultsToFormspree(node.title, node.text);
-          return;
-        }
+          <h3 style="text-align: right; color: #f1f5f9; margin-top: 15px;">📊 كشف الإجابات التفصيلي:</h3>
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>السؤال</th>
+                <th>إجابتك</th>
+                <th>الإجابة الصحيحة</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
 
-        chapterTagEl.innerText = node.chapter || "مهمة جارية";
-        storyTextEl.innerText = node.text;
-        storyTextEl.style.opacity = 1;
-
-        if (node.choices) {
-          node.choices.forEach(choice => {
-            const btn = document.createElement('button');
-            btn.className = 'choice-btn';
-            btn.innerText = choice.text;
-            btn.onclick = () => {
-              playBeep(450, 'triangle', 0.08);
-              playerHistory.push(choice.text);
-              if (choice.score) updateStatus(choice.score);
-              renderNode(choice.nextNode);
-            };
-            choicesContainerEl.appendChild(btn);
-          });
-        }
-      }, 300);
-    }
-
-    function showTimeoutEnding() {
-      const gameBox = document.getElementById('gameBox');
-      gameBox.innerHTML = `
-        <div class="ending-card">
-          <div class="ending-title">⌛ نفد وقت المهمة!</div>
-          <p class="story-text">استغرقت وقتاً طويلاً في التفكير وانقطعت الاتصالات مع المحطة..</p>
-          <button class="restart-btn" onclick="location.reload()">إعادة المحاولة 🔄</button>
+          <button class="next-btn" style="display:block; margin-top:25px;" onclick="location.reload()">إعادة الاختبار 🔄</button>
         </div>
       `;
-      sendResultsToFormspree("نفاد الوقت (Timeout)", "لم تكتمل المهمة خلال 15 دقيقة");
+
+      sendExamResultsToFormspree(score, percentage, reportSummaryForEmail);
     }
 
+    // خلفية النجوم المتحركة
     const canvas = document.getElementById('starsCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -580,7 +506,7 @@
       height = canvas.height = window.innerHeight;
     };
 
-    const stars = Array.from({ length: 110 }, () => ({
+    const stars = Array.from({ length: 90 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       r: Math.random() * 2 + 0.5,
@@ -601,7 +527,7 @@
       requestAnimationFrame(drawScene);
     }
 
-    renderNode('ch1');
+    renderQuestion();
     drawScene();
   </script>
 </body>
