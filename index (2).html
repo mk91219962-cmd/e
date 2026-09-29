@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حكاية في 10 دقائق ✨</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #090a15;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 680px;
+      background: rgba(20, 22, 40, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+
+    .timer-box {
+      font-size: 1.1rem;
+      color: #ff758c;
+      font-weight: bold;
+      background: rgba(255, 117, 140, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 117, 140, 0.3);
+    }
+
+    .score-box {
+      font-size: 1rem;
+      color: #a3e635;
+      font-weight: bold;
+    }
+
+    .story-text {
+      font-size: 1.25rem;
+      line-height: 2;
+      color: #f1f5f9;
+      min-height: 120px;
+      margin-bottom: 30px;
+      text-align: justify;
+      word-wrap: break-word;
+      white-space: normal;
+      transition: opacity 0.4s ease;
+    }
+
+    .choices-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .choice-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      padding: 16px 22px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      text-align: right;
+      line-height: 1.5;
+      transition: all 0.3s ease;
+    }
+
+    .choice-btn:hover {
+      background: linear-gradient(135deg, rgba(255, 117, 140, 0.25), rgba(255, 126, 179, 0.25));
+      border-color: #ff758c;
+      transform: translateX(-6px);
+      box-shadow: 0 5px 15px rgba(255, 117, 140, 0.2);
+    }
+
+    .ending-card {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .ending-title {
+      font-size: 2.2rem;
+      color: #ff758c;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starsCanvas"></canvas>
+
+  <div class="container">
+    <div class="header-bar">
+      <div class="timer-box">⏱️ الوقت: <span id="timer">10:00</span></div>
+      <div class="score-box">❤️ نسبة التفاهم: <span id="score">50%</span></div>
+    </div>
+
+    <div id="gameBox">
+      <div class="story-text" id="storyText">جاري تحميل القصة...</div>
+      <div class="choices-container" id="choicesContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkganog";
+
+    let totalSeconds = 600;
+    const timerElement = document.getElementById('timer');
+    const playerHistory = [];
+
+    const timerInterval = setInterval(() => {
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      timerElement.innerText = `${minutes}:${seconds}`;
+      
+      if (totalSeconds <= 0) {
+        clearInterval(timerInterval);
+        showTimeoutEnding();
+      } else {
+        totalSeconds--;
+      }
+    }, 1000);
+
+    let score = 50;
+    const scoreElement = document.getElementById('score');
+
+    function updateScore(val) {
+      score = Math.max(0, Math.min(100, score + val));
+      scoreElement.innerText = `${score}%`;
+    }
+
+    // إرسال النتيجة إلى Formspree
+    function sendResultsToFormspree(endingTitle, endingText) {
+      const timeSpentMinutes = Math.floor((600 - totalSeconds) / 60);
+      const timeSpentSeconds = (600 - totalSeconds) % 60;
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ending: endingTitle,
+          finalScore: `${score}%`,
+          timeSpent: `${timeSpentMinutes} دقيقة و ${timeSpentSeconds} ثانية`,
+          choicesHistory: playerHistory.join(" -> ")
+        })
+      }).catch(err => console.log("Formspree Error:", err));
+    }
+
+    const storyNodes = {
+      start: {
+        text: "بدأت القصة في يوم عادي جداً، تعارف هادي عبر الشاشة.. كان التردد موجود، وكل طرف بيتكلم باحتراس بيحاول يكتشف شخصية التاني.",
+        choices: [
+          { text: "تستمر في الكلام بهدوء وتركيز في التفاصيل الصغيرة", nextNode: "step1_deep", score: 10 },
+          { text: "تتعامل بسطحية وتعتبرها مجرد محادثة عابرة", nextNode: "step1_casual", score: -5 }
+        ]
+      },
+      step1_deep: {
+        text: "بدأت الأيام تعدي، والاهتمام يزيد.. لكن مع زيادته ظهرت أول مشكلة: التوقعات والتفكير الزيادة. بدأ كل موقف صغير يتفسر بألف معنى.",
+        choices: [
+          { text: "تفتح باب النقاش بصراحة وتواجه سوء الفهم فاعلياً", nextNode: "step2_talk", score: 15 },
+          { text: "تسكت وتلجأ للجفاء والردود القصيرة", nextNode: "step2_silent", score: -15 }
+        ]
+      },
+      step1_casual: {
+        text: "المحادثة بقت باردة، وشوية شوية ظهر الجدار الفاصل.. كل طرف بقى مستني المبادرة من التاني.",
+        choices: [
+          { text: "تقرر تكسر الجليد وتبدأ بداية جديدة وبأسلوب أدفى", nextNode: "step1_deep", score: 10 },
+          { text: "تسيب الأمور تعوم لحد ما تقفل خالص", nextNode: "ending_bad", score: -20 }
+        ]
+      },
+      step2_talk: {
+        text: "المواجهة أظهرت إن المشكلة مش في مشاعر الطرفين، لكن في طريقة التعبير! الكبرياء والخوف من البعد كان بيبان في شكل زعل وتقفيل.",
+        choices: [
+          { text: "تتفقوا على قانون جديد: الصراحة فوراً وبدون انسحاب", nextNode: "step3_agreement", score: 20 },
+          { text: "ترجع تكرر نفس الأسلوب عند أول مطب جديد", nextNode: "step2_silent", score: -10 }
+        ]
+      },
+      step2_silent: {
+        text: "السكوت ولد شحنة زعل جديدة.. البنت بعتت تسأل بوضوح: 'يعني برضو هنعمل إيه؟'، وكانت مستنية قرار حاسم.",
+        choices: [
+          { text: "تتراجع عن التقفيل وتشرح لها إن الزعل كان بسبب الاهتمام", nextNode: "step3_agreement", score: 15 },
+          { text: "ترد بـ 'براحتك وشوفي أنتِ عاوزة إيه'", nextNode: "ending_bad", score: -25 }
+        ]
+      },
+      step3_agreement: {
+        text: "وصلتوا لنقطة التوازن.. اتضحت الرؤية إن الاستمرار محتاج تفهم وتنازلات بسيطة من الطرفين، مش حرب كبرياء.",
+        choices: [
+          { text: "تعتمد الاتفاق وتفتحوا صفحة جديدة بنوايا أصفى", nextNode: "ending_good", score: 20 },
+          { text: "تتردد وتفضل خايف من المستقبل", nextNode: "ending_neutral", score: 0 }
+        ]
+      },
+      ending_good: {
+        title: "🏆 النهاية السعيدة: التفاهم الكامل",
+        text: "أثبتوا إن العقل والصراحة بيغلبوا أي سوء فهم. القصة انتهت بصفحة جديدة وأساس متين قايم على التفاهم الحقيقي.",
+        isEnding: true
+      },
+      ending_neutral: {
+        title: "⚖️ النهاية المتوازنة: خطوة بخطوة",
+        text: "العلاقة كملت بس بحذر.. محتاجين وقت أكتر عشان تبنوا الثقة الكاملة بدون تردد.",
+        isEnding: true
+      },
+      ending_bad: {
+        title: "💔 النهاية المغلقة: الانسحاب",
+        text: "التراكمات والكبرياء غلبوا.. القصة وقفت هنا لأن عدم التفاهم كان أكبر من الرغبة في الاستمرار.",
+        isEnding: true
+      }
+    };
+
+    function renderNode(nodeKey) {
+      const node = storyNodes[nodeKey];
+      const storyTextEl = document.getElementById('storyText');
+      const choicesContainerEl = document.getElementById('choicesContainer');
+
+      storyTextEl.style.opacity = 0;
+      choicesContainerEl.innerHTML = "";
+
+      setTimeout(() => {
+        if (node.isEnding) {
+          clearInterval(timerInterval);
+          storyTextEl.innerHTML = `<strong style="font-size:1.5rem; color:#ff758c;">${node.title}</strong><br><br>${node.text}`;
+          storyTextEl.style.opacity = 1;
+          
+          // إرسال البيانات أول ما توصل للنهاية
+          sendResultsToFormspree(node.title, node.text);
+          return;
+        }
+
+        storyTextEl.innerText = node.text;
+        storyTextEl.style.opacity = 1;
+
+        if (node.choices) {
+          node.choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.innerText = choice.text;
+            btn.onclick = () => {
+              playerHistory.push(choice.text);
+              if (choice.score) updateScore(choice.score);
+              renderNode(choice.nextNode);
+            };
+            choicesContainerEl.appendChild(btn);
+          });
+        }
+      }, 300);
+    }
+
+    function showTimeoutEnding() {
+      const gameBox = document.getElementById('gameBox');
+      gameBox.innerHTML = `
+        <div class="ending-card">
+          <div class="ending-title">⌛ انتهى الوقت!</div>
+          <p class="story-text">الـ 10 دقائق خلصت أثناء التفكير والتنقل..</p>
+        </div>
+      `;
+      sendResultsToFormspree("انتهى الوقت (Timeout)", "لم تكتمل القصة خلال 10 دقائق");
+    }
+
+    // خلفية النجوم المتحركة
+    const canvas = document.getElementById('starsCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const stars = Array.from({ length: 80 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 2 + 0.5,
+      alpha: Math.random()
+    }));
+
+    function drawStars() {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach(s => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+        s.alpha += (Math.random() - 0.5) * 0.02;
+        if (s.alpha < 0.1) s.alpha = 0.1;
+        if (s.alpha > 0.9) s.alpha = 0.9;
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    renderNode('start');
+    drawStars();
+  </script>
+</body>
+</html>
