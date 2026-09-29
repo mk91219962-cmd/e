@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حكاية في 10 دقائق ✨</title>
+  <title>شفرة أوريون-9: المهمة الممتدة 🚀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Tajawal', sans-serif;
     }
 
     body {
-      background: #090a15;
-      color: #fff;
+      background: #05060d;
+      color: #e2e8f0;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -28,19 +29,20 @@
       top: 0;
       left: 0;
       z-index: 1;
+      pointer-events: none;
     }
 
     .container {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 680px;
-      background: rgba(20, 22, 40, 0.85);
+      max-width: 800px;
+      background: rgba(13, 17, 30, 0.88);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 24px;
       padding: 35px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(56, 189, 248, 0.15);
     }
 
     .header-bar {
@@ -49,72 +51,106 @@
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
     .timer-box {
-      font-size: 1.1rem;
-      color: #ff758c;
-      font-weight: bold;
-      background: rgba(255, 117, 140, 0.1);
+      font-size: 1.05rem;
+      color: #38bdf8;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.1);
       padding: 8px 16px;
       border-radius: 20px;
-      border: 1px solid rgba(255, 117, 140, 0.3);
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    .score-box {
-      font-size: 1rem;
-      color: #a3e635;
+    .status-box {
+      font-size: 1.05rem;
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    .story-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 18px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 25px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    .chapter-tag {
+      display: inline-block;
+      color: #38bdf8;
+      font-size: 0.9rem;
       font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .story-text {
-      font-size: 1.25rem;
-      line-height: 2;
+      font-size: 1.18rem;
+      line-height: 2.1;
       color: #f1f5f9;
-      min-height: 120px;
-      margin-bottom: 30px;
       text-align: justify;
-      word-wrap: break-word;
-      white-space: normal;
       transition: opacity 0.4s ease;
     }
 
     .choices-container {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .choice-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
-      padding: 16px 22px;
+      padding: 16px 20px;
       border-radius: 14px;
       font-size: 1.05rem;
+      font-weight: 500;
       cursor: pointer;
       text-align: right;
-      line-height: 1.5;
-      transition: all 0.3s ease;
+      line-height: 1.6;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .choice-btn:hover {
-      background: linear-gradient(135deg, rgba(255, 117, 140, 0.25), rgba(255, 126, 179, 0.25));
-      border-color: #ff758c;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(129, 140, 248, 0.25));
+      border-color: #38bdf8;
       transform: translateX(-6px);
-      box-shadow: 0 5px 15px rgba(255, 117, 140, 0.2);
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.2);
     }
 
     .ending-card {
       text-align: center;
-      padding: 20px;
+      padding: 20px 10px;
     }
 
     .ending-title {
       font-size: 2.2rem;
-      color: #ff758c;
-      margin-bottom: 20px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 18px;
+    }
+
+    .restart-btn {
+      margin-top: 25px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .restart-btn:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -124,12 +160,15 @@
 
   <div class="container">
     <div class="header-bar">
-      <div class="timer-box">⏱️ الوقت: <span id="timer">10:00</span></div>
-      <div class="score-box">❤️ نسبة التفاهم: <span id="score">50%</span></div>
+      <div class="timer-box">⏱️ وقت المهمة: <span id="timer">15:00</span></div>
+      <div class="status-box">🛡️ طاقة المحطة: <span id="status">100%</span></div>
     </div>
 
     <div id="gameBox">
-      <div class="story-text" id="storyText">جاري تحميل القصة...</div>
+      <div class="story-card">
+        <div class="chapter-tag" id="chapterTag">الفصل الأول</div>
+        <div class="story-text" id="storyText">جاري تحميل بيانات المهمة...</div>
+      </div>
       <div class="choices-container" id="choicesContainer"></div>
     </div>
   </div>
@@ -137,7 +176,24 @@
   <script>
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkganog";
 
-    let totalSeconds = 600;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 440, type = 'sine', duration = 0.1) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e){}
+    }
+
+    let totalSeconds = 900;
     const timerElement = document.getElementById('timer');
     const playerHistory = [];
 
@@ -155,112 +211,333 @@
       }
     }, 1000);
 
-    let score = 50;
-    const scoreElement = document.getElementById('score');
+    let statusScore = 100;
+    const statusElement = document.getElementById('status');
 
-    function updateScore(val) {
-      score = Math.max(0, Math.min(100, score + val));
-      scoreElement.innerText = `${score}%`;
+    function updateStatus(val) {
+      statusScore = Math.max(0, Math.min(100, statusScore + val));
+      statusElement.innerText = `${statusScore}%`;
     }
 
-    // إرسال النتيجة إلى Formspree
     function sendResultsToFormspree(endingTitle, endingText) {
-      const timeSpentMinutes = Math.floor((600 - totalSeconds) / 60);
-      const timeSpentSeconds = (600 - totalSeconds) % 60;
+      const timeSpentMinutes = Math.floor((900 - totalSeconds) / 60);
+      const timeSpentSeconds = (900 - totalSeconds) % 60;
 
       fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ending: endingTitle,
-          finalScore: `${score}%`,
+          finalStatus: `${statusScore}%`,
           timeSpent: `${timeSpentMinutes} دقيقة و ${timeSpentSeconds} ثانية`,
-          choicesHistory: playerHistory.join(" -> ")
+          choicesHistory: playerHistory.join(" ➔ ")
         })
       }).catch(err => console.log("Formspree Error:", err));
     }
 
     const storyNodes = {
-      start: {
-        text: "بدأت القصة في يوم عادي جداً، تعارف هادي عبر الشاشة.. كان التردد موجود، وكل طرف بيتكلم باحتراس بيحاول يكتشف شخصية التاني.",
+      ch1: {
+        chapter: "الفصل الأول: الإشارة الغامضة",
+        text: "الساعة 03:00 صباحاً في محطة الفضاء 'أوريون-9'. أثناء فحص الرادار الدوري، التقطت أجهزة الاستشعار إشارة استغاثة مشفرة قادمة من حطام سفينة شحن مجهولة تقترب من حقل الجاذبية للمحطة. الذكاء الاصطناعي للمحطة 'آريس' ينصحك بالمرور دون التدخل.",
         choices: [
-          { text: "تستمر في الكلام بهدوء وتركيز في التفاصيل الصغيرة", nextNode: "step1_deep", score: 10 },
-          { text: "تتعامل بسطحية وتعتبرها مجرد محادثة عابرة", nextNode: "step1_casual", score: -5 }
+          { text: "تجاهل نصيحة الذكاء الاصطناعي وتجهيز ماسح الترددات لفحص السفينة", nextNode: "ch2_scan", score: 0 },
+          { text: "إرسال طائرة استكشاف درون بدون طيار لالتقاط صور حرارية للهيكل", nextNode: "ch2_drone", score: 5 }
         ]
       },
-      step1_deep: {
-        text: "بدأت الأيام تعدي، والاهتمام يزيد.. لكن مع زيادته ظهرت أول مشكلة: التوقعات والتفكير الزيادة. بدأ كل موقف صغير يتفسر بألف معنى.",
+      ch2_scan: {
+        chapter: "الفصل الثاني: فك التشفير",
+        text: "بدأت بمسح الترددات. المسح المباشر أظهر وجود طاقة غريبة تنبض داخل غرفة المحرك الرئيسية للكركوبة، ولكن عملية المسح أدت لتنشيط نظام حماية قديم في السفينة وبدأت ترسل موجات تعطل أجهزة الاتصال لديك.",
         choices: [
-          { text: "تفتح باب النقاش بصراحة وتواجه سوء الفهم فاعلياً", nextNode: "step2_talk", score: 15 },
-          { text: "تسكت وتلجأ للجفاء والردود القصيرة", nextNode: "step2_silent", score: -15 }
+          { text: "توجيه طاقة المحطة لإنشاء جدار حماية إلكتروني فوراً", nextNode: "ch3_firewall", score: -5 },
+          { text: "قطع الاتصال المباشر والاعتماد على الكاميرات المقربة فقط", nextNode: "ch3_cameras", score: 0 }
         ]
       },
-      step1_casual: {
-        text: "المحادثة بقت باردة، وشوية شوية ظهر الجدار الفاصل.. كل طرف بقى مستني المبادرة من التاني.",
+      ch2_drone: {
+        chapter: "الفصل الثاني: استكشاف الدرون",
+        text: "وصل الدرون للسفينة المهجورة وقام بنقل صور حية. الهيكل الخارجي متضرر، وهناك فتحة طوارئ في القطاع الخلفي، بينما يظهر ضوء أزرق متوهج من منتصف السفينة يتزايد نيفه كل دقيقة.",
         choices: [
-          { text: "تقرر تكسر الجليد وتبدأ بداية جديدة وبأسلوب أدفى", nextNode: "step1_deep", score: 10 },
-          { text: "تسيب الأمور تعوم لحد ما تقفل خالص", nextNode: "ending_bad", score: -20 }
+          { text: "إدخال الدرون عبر فتحة الطوارئ لفحص المصدر الأزرق", nextNode: "ch3_inside", score: 5 },
+          { text: "استخدام ذراع الدرون لسحب صندوق شحن مجهول قريب من الفتحة", nextNode: "ch3_cargo", score: -10 }
         ]
       },
-      step2_talk: {
-        text: "المواجهة أظهرت إن المشكلة مش في مشاعر الطرفين، لكن في طريقة التعبير! الكبرياء والخوف من البعد كان بيبان في شكل زعل وتقفيل.",
+      ch3_firewall: {
+        chapter: "الفصل الثالث: الثغرة",
+        text: "نجح جدار الحماية في صد الهجوم الإلكتروني، لكنه استهلك 10% من طاقة المحطة. الآن أجهزة الرادار تشير إلى أن حطام السفينة بدأ ينجذب بفعل الجاذبية وسيرتطم بالقطاع ب في المحطة خلال 20 دقيقة.",
         choices: [
-          { text: "تتفقوا على قانون جديد: الصراحة فوراً وبدون انسحاب", nextNode: "step3_agreement", score: 20 },
-          { text: "ترجع تكرر نفس الأسلوب عند أول مطب جديد", nextNode: "step2_silent", score: -10 }
+          { text: "تفعيل مدافع الليزر لتدمير الحطام وتحويله لشظايا صغيرة", nextNode: "ch4_laser", score: -10 },
+          { text: "إرسال كبسولة صيانة لدفع السفينة بعيداً عن مدار المحطة", nextNode: "ch4_push", score: 5 }
         ]
       },
-      step2_silent: {
-        text: "السكوت ولد شحنة زعل جديدة.. البنت بعتت تسأل بوضوح: 'يعني برضو هنعمل إيه؟'، وكانت مستنية قرار حاسم.",
+      ch3_cameras: {
+        chapter: "الفصل الثالث: الكاميرات الحرارية",
+        text: "التقطت الكاميرات الحركة: ليس هناك أحياء على السفينة، لكن المولد يعمل بشكل آلي مجنون. هناك حاوية كوانتوم على وشك الانفجار إذا لم يتم تفريغ شحنتها الزائدة.",
         choices: [
-          { text: "تتراجع عن التقفيل وتشرح لها إن الزعل كان بسبب الاهتمام", nextNode: "step3_agreement", score: 15 },
-          { text: "ترد بـ 'براحتك وشوفي أنتِ عاوزة إيه'", nextNode: "ending_bad", score: -25 }
+          { text: "إرسال كود إغلاق آلي عبر ترددات الطوارئ", nextNode: "ch4_code", score: 10 },
+          { text: "الاستعداد لإرتداء بدلة الفضاء والصعود للسفينة بنفسك", nextNode: "ch4_walk", score: -5 }
         ]
       },
-      step3_agreement: {
-        text: "وصلتوا لنقطة التوازن.. اتضحت الرؤية إن الاستمرار محتاج تفهم وتنازلات بسيطة من الطرفين، مش حرب كبرياء.",
+      ch3_inside: {
+        chapter: "الفصل الثالث: داخل أعماق الحطام",
+        text: "دخل الدرون المعمل الداخلي للسفينة. اكتشف عينة نادرة جداً من مادة 'الكوانتوم-X' القادرة على توليد طاقة هائلة، لكن المولد المحيط بها يفقد استقراره الحراري.",
         choices: [
-          { text: "تعتمد الاتفاق وتفتحوا صفحة جديدة بنوايا أصفى", nextNode: "ending_good", score: 20 },
-          { text: "تتردد وتفضل خايف من المستقبل", nextNode: "ending_neutral", score: 0 }
+          { text: "إطلاق غاز التبريد من الدرون لتهدئة المولد", nextNode: "ch4_cool", score: 10 },
+          { text: "محاولة اختطاف العينة بسرعة باستخدام الذراع الهيدروليكية", nextNode: "ch4_grab", score: -15 }
         ]
       },
-      ending_good: {
-        title: "🏆 النهاية السعيدة: التفاهم الكامل",
-        text: "أثبتوا إن العقل والصراحة بيغلبوا أي سوء فهم. القصة انتهت بصفحة جديدة وأساس متين قايم على التفاهم الحقيقي.",
+      ch3_cargo: {
+        chapter: "الفصل الثالث: الصندوق الغامض",
+        text: "سحب الصندوق تسبب في تمزق جزء من هيكل السفينة، مما أدى لإطلاق شحنة إشعاعية أثرت على حساسات محطتك المباشرة.",
+        choices: [
+          { text: "عزل غرفة الاستقبال وتطهيرها فوراً بالإشعاع العكسي", nextNode: "ch4_cool", score: 0 },
+          { text: "فتح الصندوق فوراً للاستفادة من محتوياته", nextNode: "ch4_grab", score: -20 }
+        ]
+      },
+      ch4_laser: {
+        chapter: "الفصل الرابع: انفجار الشظايا",
+        text: "تفتت الحطام لكن الشظايا الصغرى كأنها مطر نيزكي ضربت الدرع الخارجي للمحطة! أجهزة التحذير تصرخ بوجود تسريب هواء في الغرفة ب-3.",
+        choices: [
+          { text: "إغلاق أبواب العزل التلقائي في القطاع ب لضمان عدم فقدان الأكسجين", nextNode: "ch5_seal", score: 5 },
+          { text: "الذهاب بنفسك للقطاع ب لإصلاح الفتحة يدوياً", nextNode: "ch5_repair", score: -10 }
+        ]
+      },
+      ch4_push: {
+        chapter: "الفصل الرابع: المناورة الناجحة",
+        text: "كبسولة الصيانة نجحت في دفع الحطام لمدار آمن! السفينة الآن مستقرة على مسافة 2 كيلومتر من المحطة، والمجال بات آلياً لتنفيذ عملية إنقاذ دقيقة.",
+        choices: [
+          { text: "ربط حبل الطاقة المكون من الليزر لسحب السفينة بهدوء", nextNode: "ch5_tether", score: 10 },
+          { text: "استغلال الهدوء وصعود فريق الصيانة كاملاً للداخل", nextNode: "ch5_team", score: 5 }
+        ]
+      },
+      ch4_code: {
+        chapter: "الفصل الرابع: اختراق السجلات",
+        text: "نجح كود الإغلاق! استقرت الحرارة وتم إيقاف الانفجار وشحن السجلات التلقائية للسفينة لنظام المحطة. اكتشفت أن السفينة تابعة لمشروع سري مفقود منذ 15 عاماً.",
+        choices: [
+          { text: "فك تشفير المذكرات الشخصية لقبطان السفينة لمعرفة السبب", nextNode: "ch5_logs", score: 10 },
+          { text: "تحويل البيانات مباشرة للقيادة العامة على الأرض", nextNode: "ch5_earth", score: 0 }
+        ]
+      },
+      ch4_walk: {
+        chapter: "الفصل الرابع: السير في الفضاء",
+        text: "خرجت ببدلة الفضاء والمحيط مظلم وبارد.. وصلت لهيكل السفينة وبدأت تفتح البوابة اليدوية وسط تساقط شرارات كهربائية.",
+        choices: [
+          { text: "قطع كابلات المولد الرئيسي يدويًا لإيقاف الخطر", nextNode: "ch5_cut", score: 5 },
+          { text: "البحث عن صندوق حفظ البيانات أولاً", nextNode: "ch5_logs", score: -5 }
+        ]
+      },
+      ch4_cool: {
+        chapter: "الفصل الرابع: السيطرة الحرارية",
+        text: "نجح التبريد واستقرت العينة! المعمل الآن آمن تماماً، ولكن الذكاء الاصطناعي للمحطة ينبهك إلى الاقتراب السريع لنيزك مفاجئ غير مرصود.",
+        choices: [
+          { text: "مناورة المحطة بأكملها للانحراف عن مسار النيزك", nextNode: "ch5_dodge", score: -10 },
+          { text: "استخدام دروع الطاقة المركزة في نقطة الاصطدام", nextNode: "ch5_shield", score: 5 }
+        ]
+      },
+      ch4_grab: {
+        chapter: "الفصل الرابع: التفاعل الضار",
+        text: "محاولة سحب العينة بسرعة تسببت في تسريب شرارة عالية الفولتية أدت لعطل في كمبيوتر المحطة المباشر واستنفاد الطاقة.",
+        choices: [
+          { text: "إعادة تشغيل النظام يدويًا باستخدام المولد الاحتياطي", nextNode: "ch5_reboot", score: -15 },
+          { text: "فصل النظام المتضرر والاستغناء عنه", nextNode: "ch5_seal", score: -5 }
+        ]
+      },
+      ch5_repair: {
+        chapter: "الفصل الخامس: الإصلاح اليدوي",
+        text: "نجحت بصعوبة في لحام الفتحة اليدوية بالقطاع ب مع استهلاك أكسجين بدلتك الشخصية، واستقرت أنظمة الضغط بالمحطة.",
+        choices: [
+          { text: "إرسال روبوتات الإصلاح لتأمين المنطقة بالكامل", nextNode: "ch6_robots", score: 10 },
+          { text: "العودة لغرفة التحكم وتأمين المولدات الثانوية", nextNode: "ch6_defense", score: 5 }
+        ]
+      },
+      ch5_team: {
+        chapter: "الفصل الخامس: فريق الصيانة",
+        text: "صعد الفريق على متن السفينة وبدأ بإخلاء المواد النادرة والأجهزة الإلكترونية بحذر تام.",
+        choices: [
+          { text: "تأمين المواد في المعمل الرئيسي بالمحطة", nextNode: "ch6_explore", score: 10 }
+        ]
+      },
+      ch5_earth: {
+        chapter: "الفصل الخامس: الاتصال بالأرض",
+        text: "استلمت القيادة البيانات وأشادت بحسن تصرفك، وطلبت منك عزل السفينة حتى وصول طاقم دعم متخصص.",
+        choices: [
+          { text: "تأمين الرصيف والاستعداد للاستقبال", nextNode: "ch6_wait", score: 5 }
+        ]
+      },
+      ch5_cut: {
+        chapter: "الفصل الخامس: القطع اليدوي",
+        text: "توقفت الانفجارات وشحنات الكهرباء، وأصبح هيكل السفينة آمناً للاستكشاف المباشر.",
+        choices: [
+          { text: "الدخول ببدلات الحماية لفحص المعمل", nextNode: "ch6_explore", score: 10 }
+        ]
+      },
+      ch5_shield: {
+        chapter: "الفصل الخامس: الدرع المركّز",
+        text: "امتص درع الطاقة صدمة النيزك بنجاح دون أضرار تذكر على هيكل المحطة الرئيسي.",
+        choices: [
+          { text: "بدء شحن دروع المحطة وتجهيز الرحلة للعودة", nextNode: "ch7_final_prep", score: 10 }
+        ]
+      },
+      ch5_seal: {
+        chapter: "الفصل الخامس: احتواء الخطر",
+        text: "تم إغلاق الأبواب وعزل المنطقة المتضررة بنجاح. الضغط مستقر الآن ولكن المحطة تعمل بـ 70% من كفاءتها فقط.",
+        choices: [
+          { text: "إرسال روبوتات الإصلاح الآلية لترميم الغرفة", nextNode: "ch6_robots", score: 10 },
+          { text: "تحويل الطاقة المتبقية لنظام الدفاع والمراقبة", nextNode: "ch6_defense", score: 0 }
+        ]
+      },
+      ch5_tether: {
+        chapter: "الفصل الخامس: الالتحام الآمن",
+        text: "سحب السفينة بحبل الليزر تم بنجاح، وها هي الآن ملتحمة في الرصيف رقم 4 بالمحطة. الأبواب جاهزة للدخول والاستكشاف المباشر.",
+        choices: [
+          { text: "الدخول ببدلات الحماية الكاملة لفحص العينة والأرشيف", nextNode: "ch6_explore", score: 15 },
+          { text: "تأمين الرصيف وعزل السفينة حتى الصباح", nextNode: "ch6_wait", score: -5 }
+        ]
+      },
+      ch5_logs: {
+        chapter: "الفصل الخامس: سر المشروع",
+        text: "قراءة المذكرات كشفت الحقيقة: السفينة تحتوي على خريطة لمصدر طاقة لا ينتهي في مجرة مجاورة، وكانت هاربة من قراصنة الفضاء.",
+        choices: [
+          { text: "تشفير الخريطة بحسابك الخاص لحمايتها من التسريب", nextNode: "ch6_map", score: 15 },
+          { text: "إرسال إشارات الاستغاثة للأسطول الفضائي لحمايتكم", nextNode: "ch6_fleet", score: 5 }
+        ]
+      },
+      ch5_dodge: {
+        chapter: "الفصل الخامس: مناورة الفضاء",
+        text: "نجحت المحطة في الابتعاد عن النيزك بمقدار بضعة أمتار فقط! كان مشهداً يحبس الأنفاس، لكن الاستهلاك العالي للوقود يتطلب قراراً حاسماً.",
+        choices: [
+          { text: "استغلال عينة الكوانتوم المكتشفة لإعادة شحن الوقود", nextNode: "ch6_refuel", score: 20 },
+          { text: "تقليل إضاءة المحطة والعمل في وضع توفير الطاقة", nextNode: "ch6_defense", score: 0 }
+        ]
+      },
+      ch5_reboot: {
+        chapter: "الفصل الخامس: إعادة التشغيل",
+        text: "تمت إعادة التشغيل لكن النظام يطلب كلمة سر الطوارئ المشفرة لإعادة الشاشات والملاحة.",
+        choices: [
+          { text: "إدخال كود القائد الأساسي (Alpha-99-Omega)", nextNode: "ch6_explore", score: 10 },
+          { text: "تجاوز النظام والتشغيل اليدوي المباشر", nextNode: "ch6_defense", score: -10 }
+        ]
+      },
+      ch6_robots: {
+        chapter: "الفصل السادس: ترميم المحطة",
+        text: "الروبوتات نجحت في إصلاح الهيكل الخارجي واستعادة الضغط. المحطة الآن جاهزة للخطوة الأخيرة والاستفادة من التكنولوجيا المكتشفة.",
+        choices: [
+          { text: "بدء شحن بطاريات المحطة وتجهيز الرحلة للعودة للأرض", nextNode: "ch7_final_prep", score: 15 },
+          { text: "إجراء اختبارات معملية إضافية على المادة", nextNode: "ch7_lab_test", score: 5 }
+        ]
+      },
+      ch6_explore: {
+        chapter: "الفصل السادس: كنز الفضاء",
+        text: "أنت الآن داخل معمل السفينة الملتحمة. العينة بين يديك، وتعمل بثبات تام، وتكفي لتزويد المحطة وكوكب الأرض بالطاقة لنصف قرن.",
+        choices: [
+          { text: "نقل العينة بسلام لغرفة الأمان الكبرى بالمحطة", nextNode: "ch7_final_prep", score: 20 },
+          { text: "تشغيل العينة فوراً لتجربة المحرك النجمي السريع", nextNode: "ch7_warp", score: -10 }
+        ]
+      },
+      ch6_map: {
+        chapter: "الفصل السادس: الخريطة النجمية",
+        text: "تم حفظ الخريطة السرية بأمان، وحساباتك تؤكد أن هذا الاكتشاف سيغير مجرى التاريخ البشري في استكشاف المجرات.",
+        choices: [
+          { text: "إغلاق السجلات والاستعداد للانطلاق للأرض", nextNode: "ch7_final_prep", score: 15 },
+          { text: "توجيه المحطة فوراً نحو إحداثيات الخريطة المجهولة", nextNode: "ch7_warp", score: 10 }
+        ]
+      },
+      ch6_defense: {
+        chapter: "الفصل السادس: النمط الدفاعي",
+        text: "تم تفعيل أنظمة المراقبة والدفاع بانتظار تعليمات أخرى من الأرض.",
+        choices: [
+          { text: "الانتقال للمرحلة الأخيرة للرحلة", nextNode: "ch7_final_prep", score: 5 }
+        ]
+      },
+      ch6_wait: {
+        chapter: "الفصل السادس: الانتظار الآمن",
+        text: "السفينة معزولة تماماً والمحطة في أمان تام حتى طلوع النهار الفضائي.",
+        choices: [
+          { text: "إنهاء التقرير واستكمال المهمة", nextNode: "ch7_final_prep", score: 5 }
+        ]
+      },
+      ch6_fleet: {
+        chapter: "الفصل السادس: حماية الأسطول",
+        text: "أرسل الأسطول الفضائي سفن مرافقة لحماية المحطة والبيانات الهامة.",
+        choices: [
+          { text: "العودة مع الأسطول بسلام إلى كوكب الأرض", nextNode: "ending_hero", score: 15 }
+        ]
+      },
+      ch6_refuel: {
+        chapter: "الفصل السادس: الوقود النجمي",
+        text: "شحن الوقود المباشر أعاد للمحطة 100% من طاقتها وكفاءتها التشغيلية.",
+        choices: [
+          { text: "تجهيز المحطة للانطلاق نحو الأرض", nextNode: "ch7_final_prep", score: 15 }
+        ]
+      },
+      ch7_final_prep: {
+        chapter: "الفصل السابع: القرار الأخير",
+        text: "وصلت لللحظة الحاسمة. جميع الأنظمة مستقرة، البيانات مؤمنة، والعينة جاهزة. أمامك خياران لإتمام هذه المهمة التاريخية التي استغرقت ساعات من التفكير والجهد.",
+        choices: [
+          { text: "توجيه المحطة نحو مدار الأرض وإعلان النجاح للقيادة العامة", nextNode: "ending_hero", score: 20 },
+          { text: "البقاء في المدار الخارجي لتأسيس أول مركز أبحاث مجري", nextNode: "ending_explorer", score: 15 }
+        ]
+      },
+      ch7_lab_test: {
+        chapter: "الفصل السابع: الاختبار المعملي",
+        text: "التجارب المعملية أظهرت نتيجة مذهلة: المادة لا تنتج طاقة فحسب، بل تعالج التلوث الإشعاعي في الفضاء!",
+        choices: [
+          { text: "توثيق النتايج وإرسال التقرير الشامل للأرض", nextNode: "ending_hero", score: 20 }
+        ]
+      },
+      ch7_warp: {
+        chapter: "الفصل السابع: القفزة النجمية",
+        text: "تم تشغيل المحرك السريع! القفزة النجمية نجحت ووجدت المحطة نفسها أمام بوابة مجرية عملاقة لم يراها بشر من قبل.",
+        choices: [
+          { text: "عبور البوابة واكتشاف العالم الجديد", nextNode: "ending_pioneer", score: 25 }
+        ]
+      },
+      ending_hero: {
+        title: "🏆 النهاية الذهبية: بطل الأرض والبشرية",
+        text: "عدت بالمحطة والعينة بسلام للأرض. تم استقبالك كبطل قومي، والاكتشاف الذي أنقذته وضع حدًا لأزمة الطاقة العالمية للأبد!",
         isEnding: true
       },
-      ending_neutral: {
-        title: "⚖️ النهاية المتوازنة: خطوة بخطوة",
-        text: "العلاقة كملت بس بحذر.. محتاجين وقت أكتر عشان تبنوا الثقة الكاملة بدون تردد.",
+      ending_explorer: {
+        title: "🌌 النهاية العلمية: حارس المجرّة",
+        text: "أسست أول محطة أبحاث متقدمة في الفضاء الخارجي. أصبحت المحطة مقصدًا لأعظم علماء المجرة واكتشفتم أسراراً جديدة كل يوم.",
         isEnding: true
       },
-      ending_bad: {
-        title: "💔 النهاية المغلقة: الانسحاب",
-        text: "التراكمات والكبرياء غلبوا.. القصة وقفت هنا لأن عدم التفاهم كان أكبر من الرغبة في الاستمرار.",
+      ending_pioneer: {
+        title: "✨ النهاية الأسطورية: الرائد النجمي",
+        text: "عبرت البوابة المجرية إلى بعد جديد تماماً. أصبحت أول إنسان يطأ بقدمه مجرة جديدة، وكتبت اسمك بحروف من نور في تاريخ الكون!",
         isEnding: true
       }
     };
 
     function renderNode(nodeKey) {
-      const node = storyNodes[nodeKey];
+      const node = storyNodes[nodeKey] || storyNodes['ch1'];
       const storyTextEl = document.getElementById('storyText');
+      const chapterTagEl = document.getElementById('chapterTag');
       const choicesContainerEl = document.getElementById('choicesContainer');
 
       storyTextEl.style.opacity = 0;
       choicesContainerEl.innerHTML = "";
 
+      playBeep(600, 'sine', 0.12);
+
       setTimeout(() => {
         if (node.isEnding) {
           clearInterval(timerInterval);
-          storyTextEl.innerHTML = `<strong style="font-size:1.5rem; color:#ff758c;">${node.title}</strong><br><br>${node.text}`;
+          playBeep(880, 'square', 0.4);
+
+          chapterTagEl.innerText = "نهاية المهمة";
+          storyTextEl.innerHTML = `
+            <div class="ending-card">
+              <div class="ending-title">${node.title}</div>
+              <p style="line-height:2; font-size:1.2rem; color:#f1f5f9;">${node.text}</p>
+              <button class="restart-btn" onclick="location.reload()">بدء مهمة جديدة 🚀</button>
+            </div>
+          `;
           storyTextEl.style.opacity = 1;
           
-          // إرسال البيانات أول ما توصل للنهاية
           sendResultsToFormspree(node.title, node.text);
           return;
         }
 
+        chapterTagEl.innerText = node.chapter || "مهمة جارية";
         storyTextEl.innerText = node.text;
         storyTextEl.style.opacity = 1;
 
@@ -270,8 +547,9 @@
             btn.className = 'choice-btn';
             btn.innerText = choice.text;
             btn.onclick = () => {
+              playBeep(450, 'triangle', 0.08);
               playerHistory.push(choice.text);
-              if (choice.score) updateScore(choice.score);
+              if (choice.score) updateStatus(choice.score);
               renderNode(choice.nextNode);
             };
             choicesContainerEl.appendChild(btn);
@@ -284,30 +562,35 @@
       const gameBox = document.getElementById('gameBox');
       gameBox.innerHTML = `
         <div class="ending-card">
-          <div class="ending-title">⌛ انتهى الوقت!</div>
-          <p class="story-text">الـ 10 دقائق خلصت أثناء التفكير والتنقل..</p>
+          <div class="ending-title">⌛ نفد وقت المهمة!</div>
+          <p class="story-text">استغرقت وقتاً طويلاً في التفكير وانقطعت الاتصالات مع المحطة..</p>
+          <button class="restart-btn" onclick="location.reload()">إعادة المحاولة 🔄</button>
         </div>
       `;
-      sendResultsToFormspree("انتهى الوقت (Timeout)", "لم تكتمل القصة خلال 10 دقائق");
+      sendResultsToFormspree("نفاد الوقت (Timeout)", "لم تكتمل المهمة خلال 15 دقيقة");
     }
 
-    // خلفية النجوم المتحركة
     const canvas = document.getElementById('starsCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    const stars = Array.from({ length: 80 }, () => ({
+    window.onresize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    const stars = Array.from({ length: 110 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       r: Math.random() * 2 + 0.5,
       alpha: Math.random()
     }));
 
-    function drawStars() {
+    function drawScene() {
       ctx.clearRect(0, 0, width, height);
       stars.forEach(s => {
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+        ctx.fillStyle = `rgba(56, 189, 248, ${s.alpha})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
@@ -315,11 +598,11 @@
         if (s.alpha < 0.1) s.alpha = 0.1;
         if (s.alpha > 0.9) s.alpha = 0.9;
       });
-      requestAnimationFrame(drawStars);
+      requestAnimationFrame(drawScene);
     }
 
-    renderNode('start');
-    drawStars();
+    renderNode('ch1');
+    drawScene();
   </script>
 </body>
 </html>
