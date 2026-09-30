@@ -10,9 +10,22 @@
     body { background: #05060d; color: #e2e8f0; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; padding: 20px; }
     canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
     .container { position: relative; z-index: 10; width: 100%; max-width: 900px; background: rgba(13, 17, 30, 0.92); backdrop-filter: blur(20px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px; padding: 35px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(56, 189, 248, 0.2); }
-    .header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 22px; }
+    .header-bar { display: none; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 22px; }
     .progress-box { font-size: 1.05rem; color: #38bdf8; font-weight: 700; background: rgba(56, 189, 248, 0.1); padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.3); }
     .score-box { font-size: 1.05rem; color: #4ade80; font-weight: 700; }
+    
+    /* شاشة إدخال الاسم */
+    .name-screen { text-align: center; padding: 20px 10px; }
+    .name-screen h2 { font-size: 2rem; color: #38bdf8; margin-bottom: 15px; font-weight: 800; }
+    .name-screen p { font-size: 1.1rem; color: #94a3b8; margin-bottom: 25px; }
+    .input-group { margin-bottom: 25px; }
+    .name-input { width: 100%; max-width: 400px; padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(56, 189, 248, 0.4); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 1.1rem; text-align: center; outline: none; transition: all 0.3s ease; }
+    .name-input:focus { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+    .start-btn { background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; border: none; padding: 16px 40px; border-radius: 14px; font-size: 1.15rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+    .start-btn:hover { transform: scale(1.03); }
+
+    /* منطقة الأسئلة */
+    #quizBox { display: none; }
     .question-card { background: rgba(255, 255, 255, 0.03); border-radius: 18px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
     .topic-tag { display: inline-block; color: #fbbf24; font-size: 0.88rem; font-weight: bold; margin-bottom: 10px; background: rgba(251, 191, 36, 0.1); padding: 4px 12px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.2); }
     .question-text { font-size: 1.2rem; line-height: 1.9; color: #f1f5f9; font-weight: 600; }
@@ -38,11 +51,23 @@
   <canvas id="starsCanvas"></canvas>
 
   <div class="container">
+    <!-- شاشة إدخال الاسم قبل البداية -->
+    <div class="name-screen" id="nameScreen">
+      <h2>⚡ اختبار الفيزياء الفولاذي</h2>
+      <p>يرجى إدخال اسمك الثلاثي لبدء الاختبار وتسجيل النتيجة في النظام</p>
+      <div class="input-group">
+        <input type="text" id="studentName" class="name-input" placeholder="أدخل اسمك هنا..." autocomplete="off">
+      </div>
+      <button class="start-btn" onclick="startQuiz()">بدء الاختبار الآن 🚀</button>
+    </div>
+
+    <!-- شريط المعلومات العلوي -->
     <div class="header-bar" id="headerBar">
       <div class="progress-box">📌 السؤال: <span id="currentQ">1</span> / 100</div>
       <div class="score-box">🏆 النقاط: <span id="score">0</span></div>
     </div>
 
+    <!-- صندوق الأسئلة -->
     <div id="quizBox">
       <div class="question-card">
         <div class="topic-tag" id="topicTag">الدرس</div>
@@ -57,10 +82,10 @@
 
   <script>
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkganog";
+    let studentName = "";
 
-    // بنك 100 سؤال فريد ومميز 100% بدون أي تكرار
+    // بنك الـ 100 سؤال الكامل
     const rawQuestions = [
-      // --- الدرس الأول: شدة التيار، الجهد، المقاومة والمقاومة النوعية (1 - 33) ---
       { topic: "شدة التيار والمقاومة", q: "1. إذا زاد طول موصل بمقدار 200% نتيجة السحب المنتظم، فإن مقاومته الكهربية تزداد بمقدار:", options: ["300%", "400%", "800%", "900%"], ans: 2, hint: "💡 'زاد بمقدار 200%' يعني L2 = 3L1. في السحب R تتناسب مع L² فتصبح 9 أضعاف، والزيادة هي 800%." },
       { topic: "شدة التيار والمقاومة", q: "2. سلكان من نفس المادة، طول الأول ضعف طول الثاني وكتلة الثاني ضعف كتلة الأول. تكون النسبة بين مقاومتيهما R1/R2 هي:", options: ["8 : 1", "1 : 8", "4 : 1", "1 : 4"], ans: 0, hint: "💡 R = ρ·d·L²/m. بالتالي R1/R2 = (L1/L2)² × (m2/m1) = (2)² × (2) = 8." },
       { topic: "شدة التيار والمقاومة", q: "3. يدور إلكترون بسرعة v في مسار دائري نصف قطره r. شدة التيار المكافئة لحركة الإلكترون تساوي:", options: ["e·v / (2πr)", "2πr / (e·v)", "e·v·r / 2π", "e·v / (πr²)"], ans: 0, hint: "💡 I = q/T، والزمن الدوري T = 2πr/v، نعوض عن q بـ e فتصبح I = e·v/(2πr)." },
@@ -94,8 +119,6 @@
       { topic: "شدة التيار والمقاومة", q: "31. الموصل الكهربائي يظل متعدلاً كهربياً أثناء مرور التيار به لأن:", options: ["معدل دخول الشحنات يساوي معدل خروجها", "الإلكترونات تختفي فيه", "الجسيمات تتوقف", "الشحنات الموجبة تلتهم السالبة"], ans: 0, hint: "💡 الموصل لا يشحن لأن كمية الشحنة الداخلة = الخارجة." },
       { topic: "شدة التيار والمقاومة", q: "32. زيادة طول السلك للضعف ونقص مساحة مقطعه للنصف تؤدي لزيادة مقاومته بـ:", options: ["4 أضعاف قيمة الأصلية", "ضعفين", "3 أضعاف قيمتها الأصلية", "8 أضعاف"], ans: 2, hint: "💡 تصبح المقاومة الجديد 4R. زادت 'بمقدار' 3R (3 أضعاف)." },
       { topic: "شدة التيار والمقاومة", q: "33. عند رسم العلاقة بين R و 1/A لمجموعة أسلاك من نفس المادة ونفس الطول، فإن ميل الخط يساوي:", options: ["ρ·L", "ρ / L", "L / σ", "σ·L"], ans: 0, hint: "💡 R = (ρ·L) × (1/A). الميل هو ρ·L." },
-
-      // --- الدرس الثاني: توصيل المقاومات (34 - 66) ---
       { topic: "توصيل المقاومات", q: "34. مجموعة مقاومات متساوية R، توالي تكافئ X وتوازي تكافئ Y. قيمة R تساوي:", options: ["√(X·Y)", "X / Y", "X·Y", "√(X / Y)"], ans: 0, hint: "💡 X = nR و Y = R/n. بحاصل ضربهما: X·Y = R² ⟹ R = √(X·Y)." },
       { topic: "توصيل المقاومات", q: "35. حلقة فلزية منتظمة مقاوتها 48 أوم، صُلت بطارية بين طرفي قطر فيها. المقاومة المكافئة تكون:", options: ["12 أوم", "24 أوم", "48 أوم", "6 أوم"], ans: 0, hint: "💡 القطر يقسم الحلقة إلى نُصفين (24 Ω و 24 Ω) متوازيين فتصبح 12 Ω." },
       { topic: "توصيل المقاومات", q: "36. 3 مقاومات (R, 2R, 3R) توازي. إذا كان تيار المقاومة R هو I، فإن التيار الكلي المار بالمجموعة يساوي:", options: ["1.83 I", "2.5 I", "6 I", "1.16 I"], ans: 0, hint: "💡 V = I·R. تيار 2R هو I/2 وتيار 3R هو I/3. المجموع = I + 0.5I + 0.33I = 1.83 I." },
@@ -129,8 +152,6 @@
       { topic: "توصيل المقاومات", q: "64. عند توصيل مقاومتين R و 3R توازي مع مصباح. الشدة الضوئية للمصباح تعتمد على جهد الفرع الذي هو:", options: ["ثابت لمساواته لجهد المصدر (مهمل المقاومة الداخلية)", "يتجزأ", "يتضاعف", "ينعدم"], ans: 0, hint: "💡 التوازي يثبت فرق الجهد على الأفرع." },
       { topic: "توصيل المقاومات", q: "65. سلك مقطعه متغير وصل طرفاه بمصدر. التيار المار عند المقطع الضيق مقارنة بالمقطع الواسع يكون:", options: ["متساويًا", "أكبر في الضيق", "أكبر في الواسع", "يعتمد على المقاومة النوعية"], ans: 0, hint: "💡 شحنات الكهرباء لا تتراكم، الشدة ثابتة عبر جميع مقاطع المسار التوالي." },
       { topic: "توصيل المقاومات", q: "66. أربعة مقاومات موصلة توازي، إذا كانت القراءات للأجهزة متساوية فإن قيم المقاومات تكون:", options: ["متساوية", "مختلفة", "تنازلية", "تصاعدية"], ans: 0, hint: "💡 ثبوت V و I على المقاومات يعني R متساوية." },
-
-      // --- الدرس الثالث: قانون أوم للدوائر المغلقة (67 - 100) ---
       { topic: "قانون أوم للدوائر المغلقة", q: "67. بطارية VB ومقاومتها الداخلية r = R أُوصلت بمقاومة خارجية R. كفاءة البطارية تساوي:", options: ["50%", "100%", "25%", "75%"], ans: 0, hint: "💡 الكفاءة = R / (R + r) × 100% = R / (2R) × 100% = 50%." },
       { topic: "قانون أوم للدوائر المغلقة", q: "68. بطارية VB ومقاومتها الداخلية r أُوصلت بمقاومة خارجية R = 3r. كفاءة البطارية تساوي:", options: ["75%", "25%", "50%", "80%"], ans: 0, hint: "💡 الكفاءة = 3r / (3r + r) × 100% = 3/4 × 100% = 75%." },
       { topic: "قانون أوم للدوائر المغلقة", q: "69. عند زيادة المقاومة المتغيرة (الريوستات) في دائرة مغلقة، فإن قراءة الفولتميتر الموصل بين قطبي البطارية (ذات المقاومة الداخلية):", options: ["تزداد وتقترب من VB", "تقل وتصل للصفر", "تنعدم فوراً", "لا تتغير"], ans: 0, hint: "💡 V = VB - I·r. زيادة الريوستات تقلل I فيقل المخصوم I·r وتزداد V." },
@@ -148,7 +169,7 @@
       { topic: "قانون أوم للدوائر المغلقة", q: "81. البطارية ذات القوة الدافعة الأصغر في التوصيل التضادي السابق تكون في حالة:", options: ["شحن", "تفريغ", "توليد", "قصر دائرى"], ans: 0, hint: "💡 البطارية الأضعف يُفرض عليها التيار للدخول لقطبها الموجب فتُشحن." },
       { topic: "قانون أوم للدوائر المغلقة", q: "82. المقاومة الداخلية للبطارية تحدث هبوطاً في الجهد داخل المصدر يحدد بالعلاقة:", options: ["I · r", "I · R", "VB / r", "I² · r"], ans: 0, hint: "💡 الهبوط في الجهد الداخلي = I × r." },
       { topic: "قانون أوم للدوائر المغلقة", q: "83. دائرة مغلقة بها مصدر VB ومقاومة R وريوستات S. عند تقليل قيمة S، فإن تيار الدائرة I وفقد الجهد الداخلي I·r:", options: ["يزداد التيار ويزداد فقد الجهد الداخلي", "يقل التيار ويقل الفقد", "يزداد التيار ويقل الفقد", "يقل التيار ويزداد الفقد"], ans: 0, hint: "💡 تقليل S يقلل R_total فيزداد I، ونتيجة لذلك يزداد I·r." },
-      { topic: "قانون أوم للدوائر المغلقة", q: "84. تكون القوة הدافعة الكهربية للبطارية مساوية لفرق الجهد بين طرفيها تماماً عندما يكون:", options: ["الدائرة مفتوحة (I = 0) أو المقاومة الداخلية r = 0", "المقاومة الخارجية صفراً", "الدائرة قصيرة جداً", "التيار عالي جداً"], ans: 0, hint: "💡 V = VB - I·r ⟹ V = VB عند I=0 أو r=0." },
+      { topic: "قانون أوم للدوائر المغلقة", q: "84. تكون القوة الدافعة الكهربية للبطارية مساوية لفرق الجهد بين طرفيها تماماً عندما يكون:", options: ["الدائرة مفتوحة (I = 0) أو المقاومة الداخلية r = 0", "المقاومة الخارجية صفراً", "الدائرة قصيرة جداً", "التيار عالي جداً"], ans: 0, hint: "💡 V = VB - I·r ⟹ V = VB عند I=0 أو r=0." },
       { topic: "قانون أوم للدوائر المغلقة", q: "85. النسبة بين الفقد في الجهد الداخلي إلى القوة الدافعة الكهربية لبطارية تعبر عن:", options: ["نسبة هدر الطاقة داخل المصدر", "كفاءة البطارية", "المقاومة الخارجية", "الشغل الخارجي"], ans: 0, hint: "💡 I·r / VB يمثل نسبة الفقد غير المستفاد منه خارجياً." },
       { topic: "قانون أوم للدوائر المغلقة", q: "86. ثلاث بطاريات متماثلة كل منها VB = 2V و r = 0.5Ω متصلة توالي. التيار الشديد القصير الناتج عند ربط طرفيها بسلك مهمل المقاومة هو:", options: ["4 A", "12 A", "2 A", "6 A"], ans: 0, hint: "💡 I = 3VB / 3r = (3×2) / (3×0.5) = 6 / 1.5 = 4 A." },
       { topic: "قانون أوم للدوائر المغلقة", q: "87. وصل أوميتر أو فولتميتر بين قطبي بطارية مغلقة. إذا احترقت إحدى المقاومات التوالي بالدائرة، فإن قراءة الفولتميتر بين القطبين:", options: ["تزداد وتصبح مساوية لـ VB", "تهبط للصفر", "تقل للنصف", "لا تتغير"], ans: 0, hint: "💡 احتراق المقاومة يفتح الدائرة (I = 0)، فتصبح القراءة V = VB." },
@@ -171,6 +192,19 @@
     let score = 0;
     let attempts = 0;
     const userAnswers = [];
+
+    function startQuiz() {
+      const nameInput = document.getElementById('studentName');
+      if (nameInput.value.trim() === "") {
+        alert("يرجى كتابة اسمك أولاً قبل بدء الاختبار!");
+        return;
+      }
+      studentName = nameInput.value.trim();
+      document.getElementById('nameScreen').style.display = 'none';
+      document.getElementById('headerBar').style.display = 'flex';
+      document.getElementById('quizBox').style.display = 'block';
+      renderQuestion();
+    }
 
     function renderQuestion() {
       attempts = 0;
@@ -222,7 +256,7 @@
           btnElement.disabled = true;
 
           const hintBox = document.getElementById('hintBox');
-          hintBox.innerHTML = `⚠️️ <b>إجابة خاطئة! لديك فرصة ثانية.</b><br>${q.hint}`;
+          hintBox.innerHTML = `⚠️ <b>إجابة خاطئة! لديك فرصة ثانية.</b><br>${q.hint}`;
           hintBox.style.display = 'block';
         } else {
           btnElement.classList.add('wrong-first');
@@ -267,6 +301,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          studentName: studentName,
           examTitle: "اختبار الفيزياء الفولاذي - 100 سؤال كاملة",
           finalScore: `${finalScore} / 1000`,
           percentage: `${percentage}%`,
@@ -286,7 +321,7 @@
           <td>${ans.selected}</td>
           <td>${ans.correct}</td>
           <td class="${ans.isCorrect ? 'status-pass' : 'status-fail'}">
-            ${ans.isCorrect ? (ans.attempts === 1 ? '✅ صح (من أول مرة)' : '⚠️ صح (فرصة ثانية)') : '❌ خطأ'}
+            ${ans.isCorrect ? (ans.attempts === 1 ? '✅ صح (من أول مرة)' : '⚠️️ صح (فرصة ثانية)') : '❌ خطأ'}
           </td>
         </tr>
       `).join('');
@@ -296,7 +331,7 @@
       const quizBox = document.getElementById('quizBox');
       quizBox.innerHTML = `
         <div class="results-card">
-          <div class="results-title">🎓 النتيجة النهائية للامتحان</div>
+          <div class="results-title">🎓 النتيجة النهائية لـ: ${studentName}</div>
           <p style="font-size: 1.4rem; margin-bottom: 8px;">مجموع النقاط: <b>${score}</b> / ${maxScore}</p>
           <p style="font-size: 1.2rem; color: #38bdf8; font-weight: bold; margin-bottom: 20px;">النسبة المئوية: ${percentage}%</p>
           
@@ -354,9 +389,7 @@
       requestAnimationFrame(drawScene);
     }
 
-    renderQuestion();
     drawScene();
   </script>
 </body>
 </html>
-```eof
