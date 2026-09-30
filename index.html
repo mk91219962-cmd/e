@@ -24,6 +24,16 @@
     .start-btn { background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; border: none; padding: 16px 40px; border-radius: 14px; font-size: 1.15rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
     .start-btn:hover { transform: scale(1.03); }
 
+    /* شاشة التحضير والمؤثرات البصرية */
+    .loading-screen { display: none; text-align: center; padding: 40px 20px; }
+    .loading-screen h3 { font-size: 1.8rem; color: #38bdf8; margin-bottom: 20px; }
+    .pulse-ring { display: inline-block; width: 80px; height: 80px; border-radius: 50%; border: 4px solid #38bdf8; animation: pulse 1.2s infinite ease-in-out; margin-bottom: 20px; }
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+      50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 25px 10px rgba(56, 189, 248, 0.4); }
+      100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+    }
+
     /* منطقة الأسئلة */
     #quizBox { display: none; }
     .question-card { background: rgba(255, 255, 255, 0.03); border-radius: 18px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
@@ -48,10 +58,17 @@
 </head>
 <body>
 
+  <!-- تأثيرات الصوتية المربوطة بمجلد GitHub -->
+  <audio id="sndStart" src="start.mp3" preload="auto"></audio>
+  <audio id="sndCorrect" src="correct.mp3" preload="auto"></audio>
+  <audio id="sndWrong1" src="wrong1.mp3" preload="auto"></audio>
+  <audio id="sndWrong2" src="wrong2.mp3" preload="auto"></audio>
+  <audio id="sndFinal" src="final.mp3" preload="auto"></audio>
+
   <canvas id="starsCanvas"></canvas>
 
   <div class="container">
-    <!-- شاشة إدخال الاسم قبل البداية -->
+    <!-- شاشة إدخال الاسم -->
     <div class="name-screen" id="nameScreen">
       <h2>⚡ اختبار الفيزياء الفولاذي</h2>
       <p>يرجى إدخال اسمك الثلاثي لبدء الاختبار وتسجيل النتيجة في النظام</p>
@@ -59,6 +76,13 @@
         <input type="text" id="studentName" class="name-input" placeholder="أدخل اسمك هنا..." autocomplete="off">
       </div>
       <button class="start-btn" onclick="startQuiz()">بدء الاختبار الآن 🚀</button>
+    </div>
+
+    <!-- شاشة التحضير مع المؤثر البصري والصوت -->
+    <div class="loading-screen" id="loadingScreen">
+      <div class="pulse-ring"></div>
+      <h3>جاري تجهيز بنك الأسئلة والمحاكاة...</h3>
+      <p style="color: #94a3b8;">استعد، الامتحان يبدأ فور انتهاء النغمة 🎵</p>
     </div>
 
     <!-- شريط المعلومات العلوي -->
@@ -83,6 +107,15 @@
   <script>
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkganog";
     let studentName = "";
+
+    // تشغيل الأصوات
+    function playAudio(audioId) {
+      const audio = document.getElementById(audioId);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Audio play error:", e));
+      }
+    }
 
     // بنك الـ 100 سؤال الكامل
     const rawQuestions = [
@@ -200,7 +233,38 @@
         return;
       }
       studentName = nameInput.value.trim();
+      
+      // إخفاء شاشة الاسم وإظهار شاشة التحضير
       document.getElementById('nameScreen').style.display = 'none';
+      document.getElementById('loadingScreen').style.display = 'block';
+      
+      // تشغيل صوت البداية (start.mp3)
+      playAudio('sndStart');
+
+      // الانتظار لحين انتهاء صوت البداية أو لمدة محددة ثم عرض الأسئلة
+      const startAudio = document.getElementById('sndStart');
+      let delayTime = 4000; // وقت افتراضي لـ 4 ثوانٍ
+      
+      if (startAudio) {
+        startAudio.onended = function() {
+          showQuizBox();
+        };
+        // تحسباً إذا كانت المدة مختلفة
+        startAudio.onloadedmetadata = function() {
+          delayTime = startAudio.duration * 1000;
+        };
+      }
+
+      // احتياطي للانتقال في حالة عدم التفاعل أو المشاكل
+      setTimeout(() => {
+        if (document.getElementById('loadingScreen').style.display !== 'none') {
+          showQuizBox();
+        }
+      }, delayTime + 500);
+    }
+
+    function showQuizBox() {
+      document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('headerBar').style.display = 'flex';
       document.getElementById('quizBox').style.display = 'block';
       renderQuestion();
@@ -233,6 +297,9 @@
       const q = rawQuestions[currentIndex];
 
       if (selectedIdx === q.ans) {
+        // إجابة صحيحة ➔ تشغيل صوت correct.mp3
+        playAudio('sndCorrect');
+        
         btnElement.classList.add('correct');
         disableAllOptions();
         
@@ -251,6 +318,9 @@
         document.getElementById('nextBtn').style.display = 'block';
       } else {
         if (attempts === 0) {
+          // إجابة خاطئة أول مرة ➔ تشغيل صوت wrong1.mp3
+          playAudio('sndWrong1');
+
           attempts = 1;
           btnElement.classList.add('wrong-first');
           btnElement.disabled = true;
@@ -259,6 +329,9 @@
           hintBox.innerHTML = `⚠️ <b>إجابة خاطئة! لديك فرصة ثانية.</b><br>${q.hint}`;
           hintBox.style.display = 'block';
         } else {
+          // إجابة خاطئة بعد التلميح ➔ تشغيل صوت wrong2.mp3
+          playAudio('sndWrong2');
+
           btnElement.classList.add('wrong-first');
           disableAllOptions();
           
@@ -311,6 +384,9 @@
     }
 
     function showFinalResults() {
+      // شاشة النهاية ➔ تشغيل صوت final.mp3
+      playAudio('sndFinal');
+
       document.getElementById('headerBar').style.display = 'none';
       const maxScore = 1000;
       const percentage = ((score / maxScore) * 100).toFixed(1);
@@ -321,7 +397,7 @@
           <td>${ans.selected}</td>
           <td>${ans.correct}</td>
           <td class="${ans.isCorrect ? 'status-pass' : 'status-fail'}">
-            ${ans.isCorrect ? (ans.attempts === 1 ? '✅ صح (من أول مرة)' : '⚠️️ صح (فرصة ثانية)') : '❌ خطأ'}
+            ${ans.isCorrect ? (ans.attempts === 1 ? '✅ صح (من أول مرة)' : '⚠️ صح (فرصة ثانية)') : '❌ خطأ'}
           </td>
         </tr>
       `).join('');
